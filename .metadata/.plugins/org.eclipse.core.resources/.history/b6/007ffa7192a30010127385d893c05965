@@ -1,0 +1,20 @@
+package primero;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class DemoAleatorio {
+	public static void main(String[] args) throws IOException {
+		RandomAccessFile random = new RandomAccessFile("C:\\Users\\Tarde\\Downloads\\registros.dat", "rw");
+
+		random.writeUTF("Hola buenos dias");
+		random.writeUTF("Hola buenas tardes");
+		random.writeUTF("Hola buenas noches");
+
+		random.seek(random.getFilePointer() - 19);
+		String nombre = random.readUTF();
+		System.out.println("Registro leído: " + nombre);
+
+		random.close();
+	}
+}

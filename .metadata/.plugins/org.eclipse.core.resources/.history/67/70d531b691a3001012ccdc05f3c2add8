@@ -1,0 +1,16 @@
+package primero;
+import java.io.*;
+public class DemoBuffered {
+public static void main(String[] args) throws IOException {
+
+BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\Tarde\\Downloads\\texto.txt"));
+	bw.write("Primera línea\nSegunda línea");
+	bw.close();
+	BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Tarde\\Downloads\\texto.txt"));
+	String linea;
+	while ((linea = br.readLine()) != null) {
+	System.out.println(linea);
+	}
+	br.close();
+	}
+}

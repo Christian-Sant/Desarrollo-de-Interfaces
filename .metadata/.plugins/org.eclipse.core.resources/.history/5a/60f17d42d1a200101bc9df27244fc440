@@ -1,0 +1,59 @@
+package primero;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class NumSecreto {
+	static Scanner sc = new Scanner (System.in);
+	static int numeroDeIntentos = 1;
+	static int  numeroRandom = 0;
+	public static void main(String[] args) {
+		
+		
+	}
+	public static int numeroRandom() {
+		int numeroRandom = 0 + (int)(Math.random() * ((100 - 0) + 1));
+		return numeroRandom;
+	}
+
+	public static void pedirVerificar() throws IOException {
+		numeroRandom = numeroRandom();
+		System.out.print("Adivina el numero secreto: ");
+		int numero = sc.nextInt();
+		int verificar = 0;
+		while (verificar == 1) {
+			if(numero==numeroRandom) {
+				System.out.println("Correcto.");
+				System.out.print("¿Quieres seguir jugando?(Si/No: ");
+				String seguir = sc.nextLine();
+				if(seguir.equals("Si") || seguir.equals("SI") || seguir.equals("si")) {
+					//Pedirle un nombre para guardar record
+					//Se guarda en el archivo el record
+					System.out.print("--Vamos a guardar tu record--");
+					System.out.print("Dinos tu nombre: ");
+					String nombre = sc.nextLine();
+					FileWriter fw = new FileWriter("C:\\Users\\Tarde\\Downloads\\record.txt");
+					fw.write("Nombre: " + nombre +  " | Numero de intentos: " + numeroDeIntentos);
+					fw.close();
+					numeroDeIntentos = 0;
+					numeroRandom = numeroRandom();
+					System.out.print("Adivina el numero secreto: ");
+					numero = sc.nextInt();
+				}
+				else if(seguir.equals("No") || seguir.equals("NO") || seguir.equals("no")) {
+					System.out.println("Hasta la proxima");
+					verificar = 1;
+					
+				}
+			}
+			else {
+				numeroDeIntentos++;
+				System.out.print("Intento" + numeroDeIntentos + ": ");
+				numero = sc.nextInt();
+			}
+		}
+		
+	}
+}

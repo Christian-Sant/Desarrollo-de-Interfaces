@@ -1,0 +1,17 @@
+package primero;
+
+import java.io.File;
+
+public class DemoFile {
+    public static void main(String[] args) {
+        File archivo = new File("C:\\Users\\Tarde\\Downloads\\documento.txt");
+        if (archivo.exists()) {
+            System.out.println("Existe el archivo");
+            System.out.println("Es fichero: " + archivo.isFile());
+            System.out.println("Tamaño: " + archivo.length() + " bytes");
+        }       
+        else {
+            System.out.println("No existe");
+        }
+    }
+}
