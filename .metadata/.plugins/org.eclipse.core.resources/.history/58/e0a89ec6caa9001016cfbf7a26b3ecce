@@ -1,0 +1,86 @@
+package primero;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
+public class Prueba1 extends JFrame {
+
+    private static final long serialVersionUID = 1L;
+    private MiPanel contentPane;
+    private BufferedImage ventana;
+    private Graphics2D grafico;
+    private int x,y;
+    private int xPrev = -1, yPrev = -1; // Posiciones anteriores
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                Prueba1 frame = new Prueba1();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public Prueba1() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 450, 300);
+
+        contentPane = new MiPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+
+        // Crear imagen tamaño panel
+        ventana = new BufferedImage(440, 260, BufferedImage.TYPE_INT_RGB);
+        grafico = ventana.createGraphics();
+        grafico.setColor(Color.WHITE);
+        grafico.fillRect(0, 0, ventana.getWidth(), ventana.getHeight());
+
+        contentPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+                xPrev = x;
+                yPrev = y;
+                dibujarLinea(xPrev, yPrev, x, y);
+            }
+        });
+
+        contentPane.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+                dibujarLinea(xPrev, yPrev, x, y);
+                xPrev = x;
+                yPrev = y;
+            }
+        });
+    }
+
+    private void dibujarLinea(int xPrev, int yPrev,int x, int y) {
+        grafico.setColor(Color.BLACK);
+        grafico.fillOval(x - 5, y - 5, 10, 10);
+        contentPane.repaint();
+    }
+
+    private class MiPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(ventana, 0, 0, null);
+        }
+    }
+}
