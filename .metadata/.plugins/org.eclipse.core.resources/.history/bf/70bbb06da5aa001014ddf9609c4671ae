@@ -1,0 +1,101 @@
+package primero;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class pr2 extends JFrame {
+    private String currentShape = "NONE"; // Forma seleccionada
+    private ArrayList<ShapeData> shapes = new ArrayList<>();
+
+    public pr2() {
+        setTitle("Dibujar figuras");
+        setSize(600, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DrawingPanel panel = new DrawingPanel();
+        add(panel, BorderLayout.CENTER);
+
+        // Panel con botones para seleccionar figura
+        JPanel buttons = new JPanel();
+        JButton circleButton = new JButton("Círculo");
+        JButton rectButton = new JButton("Rectángulo");
+        JButton noneButton = new JButton("Ninguno");
+
+        circleButton.addActionListener(e -> currentShape = "CIRCLE");
+        rectButton.addActionListener(e -> currentShape = "RECTANGLE");
+        noneButton.addActionListener(e -> currentShape = "NONE");
+
+        buttons.add(circleButton);
+        buttons.add(rectButton);
+        buttons.add(noneButton);
+
+        add(buttons, BorderLayout.SOUTH);
+    }
+
+    class DrawingPanel extends JPanel {
+        private int startX, startY;
+
+        public DrawingPanel() {
+            setBackground(Color.WHITE);
+
+            addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                    if (!currentShape.equals("NONE")) {
+                        startX = e.getX();
+                        startY = e.getY();
+                    }
+                }
+
+                public void mouseReleased(MouseEvent e) {
+                    if (!currentShape.equals("NONE")) {
+                        int endX = e.getX();
+                        int endY = e.getY();
+
+                        int x = Math.min(startX, endX);
+                        int y = Math.min(startY, endY);
+                        int width = Math.abs(endX - startX);
+                        int height = Math.abs(endY - startY);
+
+                        shapes.add(new ShapeData(currentShape, x, y, width, height));
+                        repaint();
+                    }
+                }
+            });
+        }
+
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+
+            for (ShapeData shape : shapes) {
+                if (shape.type.equals("CIRCLE")) {
+                    g.drawOval(shape.x, shape.y, shape.width, shape.height);
+                } else if (shape.type.equals("RECTANGLE")) {
+                    g.drawRect(shape.x, shape.y, shape.width, shape.height);
+                }
+            }
+        }
+    }
+
+    class ShapeData {
+        String type;
+        int x, y, width, height;
+
+        ShapeData(String type, int x, int y, int width, int height) {
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new pr2().setVisible(true);
+        });
+    }
+}

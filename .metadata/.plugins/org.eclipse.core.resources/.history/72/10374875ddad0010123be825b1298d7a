@@ -1,0 +1,302 @@
+package primero;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSlider;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+
+public class PaintBasico extends JFrame {
+//CHRISTIAN JAY LAGO
+    private static final long serialVersionUID = 1L;
+    private MiPanel contentPane;
+    private BufferedImage ventana;
+    private Graphics2D grafico;
+    private int x,y;
+    private Color colorActual = Color.BLACK;
+    private JSlider slider;
+    private int grosor;
+    private int xInicial, yInicial, xFinal, yFinal;
+    private boolean dibujandoLinea = false;
+    private boolean dibujandoCirculo = false;
+    private boolean dibujandoCuadrado = false;
+    private boolean modoLinea = false;
+    private boolean modoCirculo = false;
+    private boolean modoCuadrado = false;
+    private boolean modoLibre = true;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    PaintBasico frame = new PaintBasico();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public PaintBasico() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(600, 300, 700, 500);
+        contentPane = new MiPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        
+        JMenu mnNewMenu = new JMenu("Herramientas de Dibujo");
+        menuBar.add(mnNewMenu);
+        
+        JMenuItem mntmColor = new JMenuItem("Selecciona el Color");
+        mntmColor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Color colorNuevo = JColorChooser.showDialog(mntmColor, "Selecciona un color", colorActual);
+                if(colorNuevo != null) {
+                    colorActual = colorNuevo;
+                }
+            }
+        });
+        
+        JMenuItem mntmLibre = new JMenuItem("Dibujo Libre");
+        mntmLibre.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modoLinea = false;
+                modoCirculo = false;
+                modoCuadrado = false;
+                modoLibre = true;
+            }
+        });
+        mnNewMenu.add(mntmLibre);
+        mnNewMenu.add(mntmColor);
+        
+        JMenuItem mntmLimpiar = new JMenuItem("Limpiar Lienzo");
+        mntmLimpiar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                grafico.setColor(Color.WHITE);
+                grafico.fillRect(0, 0, ventana.getWidth(), ventana.getHeight());
+                contentPane.repaint();
+            }
+        });
+        mnNewMenu.add(mntmLimpiar);
+        
+        JMenu mnGrosor = new JMenu("Grosor");
+        mnNewMenu.add(mnGrosor);
+        
+        slider = new JSlider();
+        slider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                grosor = slider.getValue();
+            }
+        });
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setValue(10);
+        slider.setMaximum(50);
+        slider.setMinimum(1);
+        mnGrosor.add(slider);
+        
+        JMenu mnFiguras = new JMenu("Figuras");
+        menuBar.add(mnFiguras);
+        
+        JMenuItem mntmLinea = new JMenuItem("Linea");
+        mntmLinea.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modoCirculo = false;
+                modoCuadrado = false;
+                modoLibre = false;
+                modoLinea = true;
+            }
+        });
+        mnFiguras.add(mntmLinea);
+        
+        JMenuItem mntmCirculo = new JMenuItem("Circulo");
+        mntmCirculo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modoCuadrado = false;
+                modoLibre = false;
+                modoLinea = false;
+                modoCirculo = true;
+            }
+        });
+        mnFiguras.add(mntmCirculo);
+        
+        JMenuItem mntmCuadrado = new JMenuItem("Cuadrado");
+        mntmCuadrado.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modoLibre = false;
+                modoLinea = false;
+                modoCirculo = false;
+                modoCuadrado = true;
+            }
+        });
+        mnFiguras.add(mntmCuadrado);
+
+        // Mouse listeners para dibujar las figuras
+        getContentPane().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (modoCirculo) {
+                    dibujandoCirculo = true;
+                    xInicial = e.getX();
+                    yInicial = e.getY();
+                } else if (modoLinea) {
+                    dibujandoLinea = true;
+                    xInicial = e.getX();
+                    yInicial = e.getY();
+                } else if (modoCuadrado) {
+                    dibujandoCuadrado = true;
+                    xInicial = e.getX();
+                    yInicial = e.getY();
+                } else if (modoLibre) {
+                    x = e.getX();
+                    y = e.getY();
+                    dibujar(x, y);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (modoCirculo && dibujandoCirculo) {
+                    dibujandoCirculo = false;
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+
+                    int ancho = Math.abs(xFinal - xInicial);
+                    int alto = Math.abs(yFinal - yInicial);
+                    int xSuperior = Math.min(xInicial, xFinal);
+                    int ySuperior = Math.min(yInicial, yFinal);
+
+                    grafico.setColor(colorActual);
+                    grafico.setStroke(new java.awt.BasicStroke(grosor));
+                    grafico.drawOval(xSuperior, ySuperior, ancho, alto);
+
+                    contentPane.repaint();
+                } else if (modoLinea && dibujandoLinea) {
+                    dibujandoLinea = false;
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+
+                    grafico.setColor(colorActual);
+                    grafico.setStroke(new java.awt.BasicStroke(grosor));
+                    grafico.drawLine(xInicial, yInicial, xFinal, yFinal);
+
+                    contentPane.repaint();
+                } else if (modoCuadrado && dibujandoCuadrado) {
+                    dibujandoCuadrado = false;
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+
+                    int ancho = Math.abs(xFinal - xInicial);
+                    int alto = Math.abs(yFinal - yInicial);
+                    int xSuperior = Math.min(xInicial, xFinal);
+                    int ySuperior = Math.min(yInicial, yFinal);
+
+                    grafico.setColor(colorActual);
+                    grafico.setStroke(new java.awt.BasicStroke(grosor));
+                    grafico.drawRect(xSuperior, ySuperior, ancho, alto);
+
+                    contentPane.repaint();
+                }
+            }
+        });
+
+        getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (modoCirculo && dibujandoCirculo) {
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+                    contentPane.repaint();  // Vista previa
+                } else if (modoLinea && dibujandoLinea) {
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+                    contentPane.repaint();  // Vista previa
+                } else if (modoCuadrado && dibujandoCuadrado) {
+                    xFinal = e.getX();
+                    yFinal = e.getY();
+                    contentPane.repaint();  // Vista previa
+                } else if (modoLibre) {
+                    x = e.getX();
+                    y = e.getY();
+                    dibujar(x, y);
+                }
+            }
+        });
+
+        ventana = new BufferedImage(700, 500, BufferedImage.TYPE_INT_RGB);
+        grafico = ventana.createGraphics();
+        grafico.setColor(Color.WHITE);
+        grafico.fillRect(0, 0, ventana.getWidth(), ventana.getHeight());
+    }
+
+    // Dibujar punto libre
+    private void dibujar(int x, int y) {
+        grafico.setColor(colorActual);
+        grafico.setStroke(new java.awt.BasicStroke(grosor));
+
+        if (modoLibre) {
+            grafico.fillOval(x - grosor / 2, y - grosor / 2, grosor, grosor);
+        }
+
+        contentPane.repaint();
+    }
+
+    // Panel con dibujo y vista previa
+    private class MiPanel extends JPanel {
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(ventana, 0, 0, null);
+
+            // Vista previa línea
+            if (modoLinea && dibujandoLinea) {
+                g.setColor(colorActual);
+                ((Graphics2D) g).setStroke(new java.awt.BasicStroke(grosor));
+                g.drawLine(xInicial, yInicial, xFinal, yFinal);
+            }
+
+            // Vista previa círculo
+            if (modoCirculo && dibujandoCirculo) {
+                int ancho = Math.abs(xFinal - xInicial);
+                int alto = Math.abs(yFinal - yInicial);
+                int xSuperior = Math.min(xInicial, xFinal);
+                int ySuperior = Math.min(yInicial, yFinal);
+
+                g.setColor(colorActual);
+                ((Graphics2D) g).setStroke(new java.awt.BasicStroke(grosor));
+                g.drawOval(xSuperior, ySuperior, ancho, alto);
+            }
+
+            // Vista previa cuadrado
+            if (modoCuadrado && dibujandoCuadrado) {
+                int ancho = Math.abs(xFinal - xInicial);
+                int alto = Math.abs(yFinal - yInicial);
+                int xSuperior = Math.min(xInicial, xFinal);
+                int ySuperior = Math.min(yInicial, yFinal);
+
+                g.setColor(colorActual);
+                ((Graphics2D) g).setStroke(new java.awt.BasicStroke(grosor));
+                g.drawRect(xSuperior, ySuperior, ancho, alto);
+            }
+        }
+    }
+}

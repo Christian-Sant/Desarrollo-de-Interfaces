@@ -35,6 +35,7 @@ public class EjercicioExcepciones1 {
 		String[] parte5 = linea1.split("/");
 		int num1linea5 = Integer.parseInt(parte5[0]);
 		int num2linea5 = Integer.parseInt(parte5[1]); 
-		System.out.println(num1linea1);
+		int resultado1 = num1linea1 / num2linea1;
+		System.out.println(resultado1);
     }
 }

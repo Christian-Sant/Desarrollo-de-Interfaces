@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="MiPanel"/>
+		<item key="selection" value="contentPane"/>
 		<list key="findhistory">
+			<item value="contentPane"/>
+			<item value="repaint"/>
+			<item value="mousePressed"/>
 			<item value="MiPanel"/>
 			<item value="textArea"/>
 			<item value="FileWriter"/>
