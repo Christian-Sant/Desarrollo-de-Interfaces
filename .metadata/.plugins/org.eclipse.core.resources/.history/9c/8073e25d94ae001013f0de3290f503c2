@@ -1,0 +1,51 @@
+package primero;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+public class RegistroEstudiantes {
+	static Scanner sc = new Scanner(System.in);
+	static String nombreEstudiante;
+	 public static void main(String[] args) {
+	        String nombreArchivo = "Estudiantes.txt";
+
+	        try (RandomAccessFile archivo = new RandomAccessFile(nombreArchivo, "rw")) {
+	        	int idEstudiante = idEstudiante();
+	        	archivo.writeInt(idEstudiante);
+	        	nombreEstudiante();
+	        	if(nombreEstudiante.length() > 20) {
+	        		nombreEstudiante();
+	        	}
+	        	else {
+	        		archivo.writeUTF(nombreEstudiante);
+	        	}
+
+	            System.out.println("Números en el archivo:");
+	            mostrarInformacion(archivo);
+	            System.out.println("\nNúmeros después de la actualización: ");
+	           
+	        } catch (IOException e) {
+	            System.err.println("Error al acceder al archivo: " + e.getMessage());
+	        }
+	    }
+	 
+	 private static void mostrarInformacion(RandomAccessFile archivo) throws IOException {
+	        archivo.seek(0);
+	        while(archivo.getFilePointer() < archivo.length()) {
+	        	System.out.print(archivo.readInt() + " ");
+	        }
+	        System.out.println();
+	    }
+	 
+	 private static int idEstudiante() {
+		 System.out.print("Dime el ID del estudiante: ");
+         int id = sc.nextInt();
+         return id;
+	 }
+	 
+	 private static void nombreEstudiante() {
+		 System.out.print("Dime tu nombre: ");
+         nombreEstudiante = sc.nextLine();
+	 }
+}
