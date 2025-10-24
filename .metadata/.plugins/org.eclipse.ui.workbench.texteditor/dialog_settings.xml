@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="contentPane"/>
+		<item key="selection" value="nombreBandera"/>
 		<list key="findhistory">
+			<item value="nombreBandera"/>
+			<item value="TAM_REGISTRO"/>
+			<item value="nombreEstudianteConfirmacion"/>
 			<item value="contentPane"/>
 			<item value="repaint"/>
 			<item value="mousePressed"/>

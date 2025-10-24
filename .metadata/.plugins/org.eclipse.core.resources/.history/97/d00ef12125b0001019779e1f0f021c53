@@ -1,0 +1,132 @@
+package primero;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+public class RegistroEstudiantes {
+	static Scanner sc = new Scanner(System.in);
+	static boolean nombreEstudianteConfirmacion = false;
+	 public static void main(String[] args) {
+	        String nombreArchivo = "C:\\Users\\Tarde\\Downloads\\Estudiantes.dat";
+
+	        try (RandomAccessFile archivo = new RandomAccessFile(nombreArchivo, "rw")) {
+	        	int opcion;
+	        	do {
+	        		nombreEstudianteConfirmacion = false;
+	        		System.out.println("--REGISTRO DEL ESTUDIANTE--");
+	        		System.out.println("1. Escribir registro");
+	        		System.out.println("2. Leer registro");
+	        		System.out.println("0. Terminar");
+	        		System.out.print("Opción: ");
+	        		opcion = sc.nextInt();
+	        		switch(opcion) {
+	        		case 1 :
+	        			idEstudiante(archivo);
+	        			if(nombreEstudianteConfirmacion) {
+	        				nombreEstudiante(archivo);
+		        			nota(archivo);
+	        			}
+	        			break;
+	        		case 2 :
+	        			System.out.print("Dime el ID del estudiante: ");
+		        		int id = sc.nextInt();
+	        			mostrarInformacion(archivo,id);
+	        			break;
+	        		case 0 :
+	        			System.exit(0);
+	        			break;
+	        		default:
+	        			System.out.println("Opción no valida.");
+	        			System.out.println("");
+	        		}
+	        	}
+	        	while(opcion != 0);
+	        } 
+	        catch (IOException e){
+	            System.err.println("Error al acceder al archivo: " + e.getMessage());
+	        }
+	    }
+	 
+	 private static void mostrarInformacion(RandomAccessFile archivo, int idBuscar) throws IOException {
+		    final int TAM_REGISTRO = 48;
+		    archivo.seek(0);
+
+		    boolean encontrado = false;
+
+		    while (archivo.getFilePointer() < archivo.length()) {
+		        long posicionActual = archivo.getFilePointer();
+
+		        int id = archivo.readInt();
+
+		        char[] nombreCaracteres = new char[20];
+		        for (int i = 0; i < 20; i++) {
+		        	nombreCaracteres[i] = archivo.readChar();
+		        }
+		        String nombre = new String(nombreCaracteres).trim();
+
+		        float nota = archivo.readFloat();
+
+		        if (id == idBuscar) {
+		            System.out.println("El estudiante con ID " + id + ", de nombre " + nombre + " tiene como calificación " + nota);
+		            encontrado = true;
+		            System.out.print("\n");
+		            break;
+		        }
+		    }
+
+		    if (!encontrado) {
+		        System.out.println("Registro no encontrado.");
+		    }
+		}
+	 
+	 private static void idEstudiante(RandomAccessFile archivo) throws IOException {
+		 final int TAM_REGISTRO = 48;
+		 archivo.seek(0);
+		 System.out.print("Dime el ID del estudiante: ");
+         int idInsertar = sc.nextInt();
+         while (archivo.getFilePointer() < archivo.length()) {
+		        long posicionActual = archivo.getFilePointer();
+
+		        int id = archivo.readInt();
+
+		        char[] nombreCaracteres = new char[20];
+		        for (int i = 0; i < 20; i++) {
+		        	nombreCaracteres[i] = archivo.readChar();
+		        }
+		        String nombre = new String(nombreCaracteres).trim();
+
+		        float nota = archivo.readFloat();
+
+		        if (id != idInsertar) {
+		        	System.out.println("No repe");
+		        	nombreEstudianteConfirmacion = true;
+		        	archivo.writeInt(idInsertar);
+		            break;
+		        }
+		        else {
+		        	System.out.println("El ID ya esta registrada");
+		        	System.out.print("\n");
+		        }
+         }
+	 }
+	 
+	 private static void nombreEstudiante(RandomAccessFile archivo) throws IOException {
+		    sc.nextLine();
+		    System.out.print("Dime el nombre del estudiante: ");
+		    String nombreEstudiante = sc.nextLine();
+
+		    StringBuilder sb = new StringBuilder(nombreEstudiante);
+		    sb.setLength(20);
+
+		    for (int i = 0; i < 20; i++) {
+		        archivo.writeChar(sb.charAt(i));
+		    }
+		}
+	 private static void nota(RandomAccessFile archivo) throws IOException {
+		 System.out.print("Dime la nota del estudiante: ");
+         float nota = sc.nextFloat();
+         archivo.writeFloat(nota);
+         System.out.print("\n");
+	 }
+}

@@ -21,9 +21,13 @@ public class RegistroEstudiantes {
 	        		opcion = sc.nextInt();
 	        		switch(opcion) {
 	        		case 1 :
+	        			System.out.println("case 1 " + nombreEstudianteConfirmacion);
 	        			idEstudiante(archivo);
-	        			nombreEstudiante(archivo);
-	        			nota(archivo);
+	        			System.out.println("case 1.2 " + nombreEstudianteConfirmacion);
+	        			if(nombreEstudianteConfirmacion) {
+	        				nombreEstudiante(archivo);
+		        			nota(archivo);
+	        			}
 	        			break;
 	        		case 2 :
 	        			System.out.print("Dime el ID del estudiante: ");
@@ -56,11 +60,11 @@ public class RegistroEstudiantes {
 
 		        int id = archivo.readInt();
 
-		        char[] nombreChars = new char[20];
+		        char[] nombreCaracteres = new char[20];
 		        for (int i = 0; i < 20; i++) {
-		            nombreChars[i] = archivo.readChar();
+		        	nombreCaracteres[i] = archivo.readChar();
 		        }
-		        String nombre = new String(nombreChars).trim();
+		        String nombre = new String(nombreCaracteres).trim();
 
 		        float nota = archivo.readFloat();
 
@@ -78,9 +82,37 @@ public class RegistroEstudiantes {
 		}
 	 
 	 private static void idEstudiante(RandomAccessFile archivo) throws IOException {
+		 archivo.seek(0);
 		 System.out.print("Dime el ID del estudiante: ");
-         int id = sc.nextInt();
-         archivo.writeInt(id);
+         int idInsertar = sc.nextInt();
+         while (archivo.getFilePointer() < archivo.length()) {
+		        long posicionActual = archivo.getFilePointer();
+
+		        int id = archivo.readInt();
+
+		        char[] nombreCaracteres = new char[20];
+		        for (int i = 0; i < 20; i++) {
+		        	nombreCaracteres[i] = archivo.readChar();
+		        }
+		        String nombre = new String(nombreCaracteres).trim();
+
+		        float nota = archivo.readFloat();
+
+		        if (id != idInsertar) {
+		        	System.out.println("Estoy dentro de if 1");
+		        	nombreEstudianteConfirmacion = true;
+		        	System.out.println("Estoy dentro de if se ha puesto true");
+		        	archivo.writeInt(idInsertar);
+		        	System.out.println("Estoy dentro de if se ha escrito");
+		            break;
+		        }
+		        else {
+		        	System.out.println("id estudiante " + nombreEstudianteConfirmacion);
+		        	System.out.println("El ID ya esta registrada");
+		        	System.out.print("\n");
+		        	break;
+		        }
+         }
 	 }
 	 
 	 private static void nombreEstudiante(RandomAccessFile archivo) throws IOException {
