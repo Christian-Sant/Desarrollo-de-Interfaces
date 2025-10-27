@@ -1,0 +1,104 @@
+package primero;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+
+public class TaskManagerApp extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textFieldNombre;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TaskManagerApp frame = new TaskManagerApp();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public TaskManagerApp() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 648, 853);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panelEntrada = new JPanel();
+		panelEntrada.setBackground(new Color(192, 192, 192));
+		panelEntrada.setBounds(10, 11, 612, 147);
+		contentPane.add(panelEntrada);
+		panelEntrada.setLayout(null);
+		
+		JLabel lblNombre = new JLabel("Nombre: ");
+		lblNombre.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblNombre.setBounds(10, 59, 91, 31);
+		panelEntrada.add(lblNombre);
+		
+		JLabel lblPrioridad = new JLabel("Prioridad: ");
+		lblPrioridad.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblPrioridad.setBounds(10, 101, 91, 31);
+		panelEntrada.add(lblPrioridad);
+		
+		JComboBox comboBoxPrioridad = new JComboBox();
+		comboBoxPrioridad.setModel(new DefaultComboBoxModel(new String[] {"", "Alta", "Media", "Baja"}));
+		
+		comboBoxPrioridad.setBounds(95, 107, 123, 22);
+		panelEntrada.add(comboBoxPrioridad);
+		
+		textFieldNombre = new JTextField();
+		textFieldNombre.setBounds(95, 64, 160, 22);
+		panelEntrada.add(textFieldNombre);
+		textFieldNombre.setColumns(10);
+		
+		JLabel lblAdministradorDeTareas = new JLabel("Administrador de Tareas Diarias");
+		lblAdministradorDeTareas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAdministradorDeTareas.setFont(new Font("Arial Black", Font.BOLD, 19));
+		lblAdministradorDeTareas.setBounds(10, 11, 592, 31);
+		panelEntrada.add(lblAdministradorDeTareas);
+		
+		JButton btnAgregarTarea = new JButton("Agregar Tarea");
+		btnAgregarTarea.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tarea tarea = new Tarea(textFieldNombre.getText(), comboBoxPrioridad.getSelectedItem().toString());
+				System.out.println(tarea.toString());
+			}
+		});
+		btnAgregarTarea.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		btnAgregarTarea.setBounds(419, 113, 183, 23);
+		panelEntrada.add(btnAgregarTarea);
+		
+		JPanel panelTareas = new JPanel();
+		panelTareas.setBackground(new Color(255, 255, 255));
+		panelTareas.setBounds(10, 169, 612, 634);
+		contentPane.add(panelTareas);
+		panelTareas.setLayout(null);
+	}
+}

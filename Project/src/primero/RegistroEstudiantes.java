@@ -2,47 +2,67 @@ package primero;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RegistroEstudiantes {
+	//CHRISTIAN JAY LAGO
 	static Scanner sc = new Scanner(System.in);
 	static boolean nombreEstudianteConfirmacion = false;
 	 public static void main(String[] args) {
 	        String nombreArchivo = "C:\\Users\\Tarde\\Downloads\\Estudiantes.dat";
 
 	        try (RandomAccessFile archivo = new RandomAccessFile(nombreArchivo, "rw")) {
-	        	int opcion;
+	        	int opcion = 0;
+	        	boolean irse = false;
 	        	do {
 	        		System.out.println("--REGISTRO DEL ESTUDIANTE--");
 	        		System.out.println("1. Escribir registro");
 	        		System.out.println("2. Leer registro");
 	        		System.out.println("0. Terminar");
 	        		System.out.print("Opción: ");
-	        		opcion = sc.nextInt();
-	        		switch(opcion) {
-	        		case 1 :
-	        			System.out.println("case 1 " + nombreEstudianteConfirmacion);
-	        			idEstudiante(archivo);
-	        			System.out.println("case 1.2 " + nombreEstudianteConfirmacion);
-	        			if(nombreEstudianteConfirmacion) {
-	        				nombreEstudiante(archivo);
-		        			nota(archivo);
-	        			}
-	        			break;
-	        		case 2 :
-	        			System.out.print("Dime el ID del estudiante: ");
-		        		int id = sc.nextInt();
-	        			mostrarInformacion(archivo,id);
-	        			break;
-	        		case 0 :
-	        			System.exit(0);
-	        			break;
-	        		default:
+	        		try {
+	        			opcion = sc.nextInt();
+	        			switch(opcion) {
+		        		case 1 :
+		        			idEstudiante(archivo);
+		        			if(nombreEstudianteConfirmacion) {
+		        				nombreEstudiante(archivo);
+			        			nota(archivo);
+		        			}
+		        			break;
+		        		case 2 :
+		        			while(true) {
+		        				System.out.print("Dime el ID del estudiante: ");
+			        			try {
+			        				int id = sc.nextInt();
+				        			mostrarInformacion(archivo,id);
+				        			break;
+			        			}
+			        			catch(InputMismatchException e) {
+				        			System.out.println("El ID debe ser Valido.");
+				        			System.out.println("");
+				        			sc.nextLine();
+				        		}
+		        			}
+		        			break;
+		        		case 0 :
+		        			System.exit(0);
+		        			irse = true;
+		        			break;
+		        		default:
+		        			System.out.println("Opción no valida.");
+		        			System.out.println("");
+		        		}
+	        		}
+	        		catch(InputMismatchException e) {
 	        			System.out.println("Opción no valida.");
 	        			System.out.println("");
+	        			sc.nextLine();
+	        			opcion = -1;
 	        		}
 	        	}
-	        	while(opcion != 0);
+	        	while(!irse);
 	        } 
 	        catch (IOException e){
 	            System.err.println("Error al acceder al archivo: " + e.getMessage());
@@ -50,14 +70,12 @@ public class RegistroEstudiantes {
 	    }
 	 
 	 private static void mostrarInformacion(RandomAccessFile archivo, int idBuscar) throws IOException {
-		    final int TAM_REGISTRO = 48;
 		    archivo.seek(0);
 
 		    boolean encontrado = false;
 
 		    while (archivo.getFilePointer() < archivo.length()) {
-		        long posicionActual = archivo.getFilePointer();
-
+		    	
 		        int id = archivo.readInt();
 
 		        char[] nombreCaracteres = new char[20];
@@ -82,55 +100,84 @@ public class RegistroEstudiantes {
 		}
 	 
 	 private static void idEstudiante(RandomAccessFile archivo) throws IOException {
-		 archivo.seek(0);
-		 System.out.print("Dime el ID del estudiante: ");
-         int idInsertar = sc.nextInt();
-         while (archivo.getFilePointer() < archivo.length()) {
-		        long posicionActual = archivo.getFilePointer();
+		 while(true) {
+			 archivo.seek(0);
+			    System.out.print("Dime el ID del estudiante: ");
+			    try {
+			    	int idInsertar = sc.nextInt();
 
-		        int id = archivo.readInt();
+				    if (archivo.length() == 0) {
+				        archivo.writeInt(idInsertar);
+				        nombreEstudianteConfirmacion = true;
+				        return;
+				    }
 
-		        char[] nombreCaracteres = new char[20];
-		        for (int i = 0; i < 20; i++) {
-		        	nombreCaracteres[i] = archivo.readChar();
-		        }
-		        String nombre = new String(nombreCaracteres).trim();
+				    boolean idExiste = false;
+				    while (archivo.getFilePointer() < archivo.length()) {
+				        int id = archivo.readInt();
+				        if (id == idInsertar) {
+				            idExiste = true;
+				            break;
+				        }
+				    }
 
-		        float nota = archivo.readFloat();
-
-		        if (id != idInsertar) {
-		        	System.out.println("Estoy dentro de if 1");
-		        	nombreEstudianteConfirmacion = true;
-		        	System.out.println("Estoy dentro de if se ha puesto true");
-		        	archivo.writeInt(idInsertar);
-		        	System.out.println("Estoy dentro de if se ha escrito");
-		            break;
-		        }
-		        else {
-		        	System.out.println("id estudiante " + nombreEstudianteConfirmacion);
-		        	System.out.println("El ID ya esta registrada");
-		        	System.out.print("\n");
-		        	break;
-		        }
-         }
-	 }
-	 
-	 private static void nombreEstudiante(RandomAccessFile archivo) throws IOException {
-		    sc.nextLine();
-		    System.out.print("Dime el nombre del estudiante: ");
-		    String nombreEstudiante = sc.nextLine();
-
-		    StringBuilder sb = new StringBuilder(nombreEstudiante);
-		    sb.setLength(20);
-
-		    for (int i = 0; i < 20; i++) {
-		        archivo.writeChar(sb.charAt(i));
-		    }
+				    if (idExiste) {
+				        nombreEstudianteConfirmacion = false;
+				        System.out.println("El ID ya está registrado");
+				        System.out.println("");
+				    } else {
+				        archivo.seek(archivo.length());
+				        archivo.writeInt(idInsertar);
+				        nombreEstudianteConfirmacion = true;
+				    }
+				    break;
+			    }
+			    catch(InputMismatchException e) {
+        			System.out.println("El ID debe ser un numero entero.");
+        			sc.nextLine();
+        		}
+		 	}    
 		}
+	 private static void nombreEstudiante(RandomAccessFile archivo) throws IOException {
+		 sc.nextLine();
+		 while(true) {
+			    System.out.print("Dime el nombre del estudiante: ");
+			    String nombreEstudiante = sc.nextLine();
+			    if(nombreEstudiante.length() <= 20) {
+			    	StringBuilder sb = new StringBuilder(nombreEstudiante);
+				    sb.setLength(20);
+
+				    for (int i = 0; i < 20; i++) {
+				        archivo.writeChar(sb.charAt(i));
+				    }
+				    break;
+			    }
+			    else {
+			    	System.out.println("El nombre del estudiante debe ser igual o menor a 20 caracteres");
+			    }
+		 } 
+	}
 	 private static void nota(RandomAccessFile archivo) throws IOException {
-		 System.out.print("Dime la nota del estudiante: ");
-         float nota = sc.nextFloat();
-         archivo.writeFloat(nota);
-         System.out.print("\n");
+		 while(true) {
+			 System.out.print("Dime la nota del estudiante: ");
+			 try {
+				 float nota = sc.nextFloat();
+		         if(nota >= 0 && nota <= 10 ) {
+		        	 archivo.writeFloat(nota);
+			         System.out.print("\n");
+		        	 break;
+		         }
+		         else {
+		        	 System.out.println("La nota debe estar entre 0 a 10.");
+		        	 sc.nextLine();
+		        	 System.out.println("");
+		         }
+			 }
+			 catch(InputMismatchException e) {
+	 			System.out.println("El numero debe ser valido.");
+	 			sc.nextLine();
+	 			System.out.println("");
+	 		 }
+		 }
 	 }
 }

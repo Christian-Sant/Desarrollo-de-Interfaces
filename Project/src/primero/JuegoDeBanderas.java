@@ -1,6 +1,8 @@
 package primero;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class JuegoDeBanderas extends JFrame {
+	//CHRISTIAN JAY LAGO
 	private JLabel lblImagen;
 	private static final String[] PAISES_ISO = {
 	                           "AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG",
@@ -78,9 +81,14 @@ public class JuegoDeBanderas extends JFrame {
 	private static int correcto;
 	private static String nombreBandera;
 	private static final long serialVersionUID = 1L;
-	private static final String RUTA = "C:\\Users\\\\Tarde\\Downloads\\Juego Banderas\\Imagenes\\";
+	private static final String RUTA = "C:\\Users\\Tarde\\Downloads\\Juego Banderas\\Imagenes\\";
 	private JPanel contentPane;
-
+	private static int puntuacion = 0;
+	private static int contadorPreguntas = 0;
+	private final JLabel lbPregunta = new JLabel("¿Que bandera es?");
+	private JLabel lblPuntuacion;
+	private JButton btnConfirmar;
+	private JButton btnTerminar;
 	/**
 	 * Launch the application.
 	 */
@@ -90,6 +98,7 @@ public class JuegoDeBanderas extends JFrame {
 				try {
 					JuegoDeBanderas frame = new JuegoDeBanderas();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -148,28 +157,66 @@ public class JuegoDeBanderas extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setVisible(false);
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < seleccion.length; i++) {
-		            if (seleccion[i].isSelected()) {
-		                if (i == correcto) {
-		                	JOptionPane.showMessageDialog(null, "Correcto");
-		                    pais();
-		                    pregunta();
-		                    lblImagen.setIcon(new ImageIcon(RUTA + PAISES_ISO[banderaImagen] + ".png"));
-		                }
-		                else {
-		                	JOptionPane.showMessageDialog(null, "Incorrecto");
-		                }
-		                break;
-		            }
-		        }
+				if(!rdbtnOpcion1.isSelected() && !rdbtnOpcion2.isSelected() && !rdbtnOpcion3.isSelected() && !rdbtnOpcion4.isSelected()) {
+                	JOptionPane.showMessageDialog(null, "Selecciona una opción","Advertencia",JOptionPane.WARNING_MESSAGE);
+                }
+				else {
+					for (int i = 0; i < seleccion.length; i++) {
+			            if (seleccion[i].isSelected()) {
+				                if (i == correcto) {
+				                	JOptionPane.showMessageDialog(null, "Has Acertado","Información",JOptionPane.INFORMATION_MESSAGE);
+				                    pais();
+				                    pregunta();
+				                    lblImagen.setIcon(new ImageIcon(RUTA + PAISES_ISO[banderaImagen] + ".png"));
+				                    puntuacion++;
+				                }
+				                else {
+				                	JOptionPane.showMessageDialog(null, "Has Fallado, era: " + nombreBandera,"Información",JOptionPane.ERROR_MESSAGE);
+				                	pais();
+				                    pregunta();
+				                    lblImagen.setIcon(new ImageIcon(RUTA + PAISES_ISO[banderaImagen] + ".png"));
+				                }
+			                break;
+			            }
+			        }
+					contadorPreguntas++;
+					lblPuntuacion.setText("Puntuación: " + puntuacion + "/" + contadorPreguntas);
+				}
 			}
 		});
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(128, 128, 255));
+		panel.setBounds(0, 0, 822, 502);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Empezar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(false);
+				btnNewButton.setVisible(false);
+				rdbtnOpcion1.setVisible(true);
+				rdbtnOpcion2.setVisible(true);
+				rdbtnOpcion3.setVisible(true);;
+				rdbtnOpcion4.setVisible(true);;
+				lbPregunta.setVisible(true);
+				lblPuntuacion.setVisible(true);
+				btnConfirmar.setVisible(true);
+				btnTerminar.setVisible(true);
+				lblImagen.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(302, 218, 165, 53);
+		panel.add(btnNewButton);
 		btnConfirmar.setBounds(635, 459, 123, 32);
 		contentPane.add(btnConfirmar);
-		
+		rdbtnOpcion1.setBackground(new Color(0, 105, 210));
+		rdbtnOpcion1.setVisible(false);
 		rdbtnOpcion1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnOpcion2.setSelected(false);
@@ -179,7 +226,8 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion1.setBounds(6, 310, 359, 66);
 		contentPane.add(rdbtnOpcion1);
-		
+		rdbtnOpcion2.setBackground(new Color(0, 204, 0));
+		rdbtnOpcion2.setVisible(false);
 		rdbtnOpcion2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnOpcion1.setSelected(false);
@@ -189,7 +237,8 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion2.setBounds(367, 310, 395, 66);
 		contentPane.add(rdbtnOpcion2);
-		
+		rdbtnOpcion3.setBackground(new Color(202, 0, 0));
+		rdbtnOpcion3.setVisible(false);
 		rdbtnOpcion3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnOpcion2.setSelected(false);
@@ -199,7 +248,8 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion3.setBounds(6, 379, 359, 66);
 		contentPane.add(rdbtnOpcion3);
-		
+		rdbtnOpcion4.setBackground(new Color(232, 232, 0));
+		rdbtnOpcion4.setVisible(false);
 		rdbtnOpcion4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnOpcion2.setSelected(false);
@@ -211,9 +261,37 @@ public class JuegoDeBanderas extends JFrame {
 		contentPane.add(rdbtnOpcion4);
 		
 		lblImagen = new JLabel("");
+		lblImagen.setVisible(false);
 		lblImagen.setIcon(new ImageIcon(RUTA + PAISES_ISO[banderaImagen] + ".png"));
 		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImagen.setBounds(6, 11, 756, 342);
 		contentPane.add(lblImagen);
+		
+		lblPuntuacion = new JLabel("Puntuación: " + puntuacion + "/" + contadorPreguntas);
+		lblPuntuacion.setVisible(false);
+		lblPuntuacion.setBackground(new Color(255, 255, 255));
+		lblPuntuacion.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblPuntuacion.setBounds(608, 0, 150, 42);
+		contentPane.add(lblPuntuacion);
+		lbPregunta.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 17));
+		lbPregunta.setVisible(false);
+		lbPregunta.setBounds(224, 28, 325, 14);
+		lbPregunta.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		contentPane.add(lbPregunta);
+		
+		btnTerminar = new JButton("Salir");
+		btnTerminar.setVisible(false);
+		btnTerminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int opcion = JOptionPane.showConfirmDialog(null,"Estas seguro de que quieres salir?","Pregunta",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+
+			        if (opcion == JOptionPane.YES_OPTION) {
+			            System.exit(0);
+			        } 
+			}
+		});
+		btnTerminar.setBounds(6, 464, 123, 32);
+		contentPane.add(btnTerminar);
 	}
 }

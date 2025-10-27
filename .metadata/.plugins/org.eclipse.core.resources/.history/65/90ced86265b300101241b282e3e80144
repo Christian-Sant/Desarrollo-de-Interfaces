@@ -1,0 +1,55 @@
+package primero;
+
+public class Tarea {
+	private String nombre;
+	private String[] prioridad = {"Alta", "Media", "Baja"};
+	private boolean estado;
+	private String estadoCompletadaPendiente;
+	public Tarea(String nombre, String[] prioridad, boolean estado) {
+		this.nombre = nombre;
+		this.prioridad = prioridad;
+		this.estado = estado;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String getestadoCompletadaPendiente() {
+		return nombre;
+	}
+
+	public void setEstadoCompletadaPendiente(String estadoCompletadaPendiente) {
+		this.estadoCompletadaPendiente = estadoCompletadaPendiente;
+	}
+
+	public String[] getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(String[] prioridad) {
+		this.prioridad = prioridad;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	private void estadoTarea() {
+		if(isEstado()) {
+			setEstadoCompletadaPendiente("Completada");
+		}
+		else {
+			setEstadoCompletadaPendiente("Pendiente");
+		}
+	}
+	
+}
