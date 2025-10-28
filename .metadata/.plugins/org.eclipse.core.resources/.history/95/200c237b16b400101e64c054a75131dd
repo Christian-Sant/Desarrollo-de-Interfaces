@@ -1,0 +1,60 @@
+package primero;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class TaskCellRenderer extends JPanel implements ListCellRenderer<Tarea> {
+
+    private static final long serialVersionUID = 1L;
+
+    private JLabel lblNombre;
+    private JLabel lblPrioridad;
+    private JLabel lblIconoPrioridad;
+    private JLabel lblEstado;
+
+    public TaskCellRenderer() {
+        setLayout(new GridLayout(1, 4, 10, 0));
+
+        lblNombre = new JLabel();
+        lblPrioridad = new JLabel();
+        lblIconoPrioridad = new JLabel();
+        lblIconoPrioridad.setHorizontalAlignment(SwingConstants.CENTER);
+        lblEstado = new JLabel();
+
+        lblNombre.setFont(new Font("Arial", Font.BOLD, 12));
+        lblPrioridad.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblEstado.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+
+        add(lblNombre);
+        add(lblPrioridad);
+        add(lblIconoPrioridad);
+        add(lblEstado);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(
+        JList<? extends Tarea> list, Tarea tarea, int index, boolean isSelected, boolean cellHasFocus) {
+	        lblNombre.setText(tarea.getNombre());
+	        lblPrioridad.setText("Prioridad: " + tarea.getPrioridad());
+	        boolean estado = tarea.isEstado();
+	        if(estado) {
+	        	lblEstado.setText("Completada");
+	        }
+	        else {
+	        	lblEstado.setText("Pendiente");
+	        }
+	
+	        switch (tarea.getPrioridad()) {
+	            case "Alta":
+	            	lblIconoPrioridad.setIcon(new ImageIcon("C:\\Users\\Tarde\\Downloads\\circuloRojo.png"));
+	                break;
+	            case "Media":
+	            	lblIconoPrioridad.setIcon(new ImageIcon("C:\\Users\\Tarde\\Downloads\\circuloAmarrillo.png"));
+	                break;
+	            case "Baja":
+	            	lblIconoPrioridad.setIcon(new ImageIcon("C:\\Users\\Tarde\\Downloads\\circuloVerde.png"));
+	                break;
+	        }
+	        return this;
+    }
+}

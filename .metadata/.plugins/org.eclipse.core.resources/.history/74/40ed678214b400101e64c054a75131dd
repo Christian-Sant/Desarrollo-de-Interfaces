@@ -1,0 +1,72 @@
+package primero;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class TaskCellRenderer extends JPanel implements ListCellRenderer<Tarea> {
+
+    private static final long serialVersionUID = 1L;
+
+    private JLabel lblNombre;
+    private JLabel lblPrioridad;
+    private JLabel lblEstado;
+
+    public TaskCellRenderer() {
+        // Diseño de la celda
+        setLayout(new GridLayout(1, 3, 10, 0));
+
+        lblNombre = new JLabel();
+        lblPrioridad = new JLabel();
+        lblEstado = new JLabel();
+
+        lblNombre.setFont(new Font("Arial", Font.BOLD, 13));
+        lblPrioridad.setFont(new Font("Arial", Font.PLAIN, 12));
+        lblEstado.setFont(new Font("Arial", Font.ITALIC, 12));
+
+        add(lblNombre);
+        add(lblPrioridad);
+        add(lblEstado);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(
+            JList<? extends Tarea> list,
+            Tarea tarea,
+            int index,
+            boolean isSelected,
+            boolean cellHasFocus) {
+
+        // 📋 Mostrar la información de la tarea
+        lblNombre.setText("📋 " + tarea.getNombre());
+        lblPrioridad.setText("Prioridad: " + tarea.getPrioridad());
+        lblEstado.setText(tarea.isEstado() ? "✅ Completada" : "🕒 Pendiente");
+
+        // 🎨 Colores según la prioridad
+        switch (tarea.getPrioridad()) {
+            case "Alta":
+                lblPrioridad.setForeground(Color.RED);
+                break;
+            case "Media":
+                lblPrioridad.setForeground(Color.ORANGE);
+                break;
+            case "Baja":
+                lblPrioridad.setForeground(new Color(0, 128, 0)); // Verde
+                break;
+            default:
+                lblPrioridad.setForeground(Color.BLACK);
+                break;
+        }
+
+        // 🎨 Cambiar color de fondo si está seleccionada
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+
+        setOpaque(true); // Necesario para que el fondo se pinte
+        return this;
+    }
+}

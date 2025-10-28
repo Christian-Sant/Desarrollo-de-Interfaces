@@ -17,8 +17,10 @@ public class RegistroEstudiantes {
 	        	boolean irse = false;
 	        	do {
 	        		System.out.println("--REGISTRO DEL ESTUDIANTE--");
-	        		System.out.println("1. Escribir registro");
+	        		System.out.println("4. Mostrar todos los registros");
+	        		System.out.println("3. Actualizar nota del Estudiante");
 	        		System.out.println("2. Leer registro");
+	        		System.out.println("1. Escribir registro");
 	        		System.out.println("0. Terminar");
 	        		System.out.print("Opción: ");
 	        		try {
@@ -45,6 +47,12 @@ public class RegistroEstudiantes {
 				        			sc.nextLine();
 				        		}
 		        			}
+		        			break;
+		        		case 3 :
+		        			actualizarNotaEstudiante(archivo);
+		        			break;
+		        		case 4 :
+		        			mostrarTodaLaInformacion(archivo);
 		        			break;
 		        		case 0 :
 		        			System.exit(0);
@@ -96,8 +104,27 @@ public class RegistroEstudiantes {
 
 		    if (!encontrado) {
 		        System.out.println("Registro no encontrado.");
+		        System.out.print("\n");
 		    }
-		}
+	 }
+	 
+	 private static void mostrarTodaLaInformacion(RandomAccessFile archivo) throws IOException {
+		    archivo.seek(0);
+
+		    while (archivo.getFilePointer() < archivo.length()) {
+		    	
+		        int id = archivo.readInt();
+
+		        char[] nombreCaracteres = new char[20];
+		        for (int i = 0; i < 20; i++) {
+		        	nombreCaracteres[i] = archivo.readChar();
+		        }
+		        String nombre = new String(nombreCaracteres).trim();
+		        float nota = archivo.readFloat();
+		        System.out.println("El estudiante con ID " + id + ", de nombre " + nombre + " tiene como calificación " + nota);
+		        System.out.print("\n");
+		    }
+	 }
 	 
 	 private static void idEstudiante(RandomAccessFile archivo) throws IOException {
 		 while(true) {
@@ -138,12 +165,71 @@ public class RegistroEstudiantes {
         		}
 		 	}    
 		}
+	 private static void actualizarNotaEstudiante(RandomAccessFile archivo) throws IOException {
+		 while(true) {
+			 	archivo.seek(0);
+			    System.out.print("Dime el ID del estudiante al que quieres actualizar la nota: ");
+			    try {
+			    	int id = sc.nextInt();
+
+				    boolean idExiste = false;
+				    int ubicacionId = 0;
+					while (archivo.getFilePointer() < archivo.length()) {
+						ubicacionId = (int) archivo.getFilePointer();
+				    	int idBuscado = archivo.readInt();
+				        if (idBuscado == id) {
+				            idExiste = true;
+				            break;
+				        }
+				    }
+				    
+				    
+				    if (idExiste) {
+				    	nombreEstudianteConfirmacion = true;
+				    	ubicacionId = ubicacionId + 44;
+				    	while(true) {
+							 System.out.print("Dime la nueva nota del estudiante: ");
+							 try {
+								 float nota = sc.nextFloat();
+						         if(nota >= 0 && nota <= 10 ) {
+						        	 archivo.seek(ubicacionId);
+						        	 archivo.writeFloat(nota);
+							         System.out.print("\n");
+						        	 break;
+						         }
+						         else {
+						        	 System.out.println("La nota debe estar entre 0 a 10.");
+						        	 sc.nextLine();
+						        	 System.out.println("");
+						         }
+							 }
+							 catch(InputMismatchException e) {
+					 			System.out.println("El numero debe ser valido.");
+					 			sc.nextLine();
+					 			System.out.println("");
+					 		 }
+						 }
+				    	
+				    	
+				    } else {
+				    	nombreEstudianteConfirmacion = false;
+				        System.out.println("El ID no está registrado.");
+				        System.out.println("");
+				        
+				    }
+				    break;
+			    }
+			    catch(InputMismatchException e) {
+        			System.out.println("El ID es un numero entero.");
+        			sc.nextLine();
+        		}
+		 	}    
+		}
 	 private static void nombreEstudiante(RandomAccessFile archivo) throws IOException {
 		 sc.nextLine();
 		 while(true) {
 			    System.out.print("Dime el nombre del estudiante: ");
 			    String nombreEstudiante = sc.nextLine();
-			    if(nombreEstudiante.length() <= 20) {
 			    	StringBuilder sb = new StringBuilder(nombreEstudiante);
 				    sb.setLength(20);
 
@@ -151,10 +237,6 @@ public class RegistroEstudiantes {
 				        archivo.writeChar(sb.charAt(i));
 				    }
 				    break;
-			    }
-			    else {
-			    	System.out.println("El nombre del estudiante debe ser igual o menor a 20 caracteres");
-			    }
 		 } 
 	}
 	 private static void nota(RandomAccessFile archivo) throws IOException {

@@ -215,7 +215,7 @@ public class JuegoDeBanderas extends JFrame {
 		panel.add(btnNewButton);
 		btnConfirmar.setBounds(635, 459, 123, 32);
 		contentPane.add(btnConfirmar);
-		rdbtnOpcion1.setBackground(new Color(0, 105, 210));
+		rdbtnOpcion1.setBackground(new Color(255, 255, 255));
 		rdbtnOpcion1.setVisible(false);
 		rdbtnOpcion1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,7 +226,7 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion1.setBounds(6, 310, 359, 66);
 		contentPane.add(rdbtnOpcion1);
-		rdbtnOpcion2.setBackground(new Color(0, 204, 0));
+		rdbtnOpcion2.setBackground(new Color(255, 255, 255));
 		rdbtnOpcion2.setVisible(false);
 		rdbtnOpcion2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -237,7 +237,7 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion2.setBounds(367, 310, 395, 66);
 		contentPane.add(rdbtnOpcion2);
-		rdbtnOpcion3.setBackground(new Color(202, 0, 0));
+		rdbtnOpcion3.setBackground(new Color(255, 255, 255));
 		rdbtnOpcion3.setVisible(false);
 		rdbtnOpcion3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -248,7 +248,7 @@ public class JuegoDeBanderas extends JFrame {
 		});
 		rdbtnOpcion3.setBounds(6, 379, 359, 66);
 		contentPane.add(rdbtnOpcion3);
-		rdbtnOpcion4.setBackground(new Color(232, 232, 0));
+		rdbtnOpcion4.setBackground(new Color(255, 255, 255));
 		rdbtnOpcion4.setVisible(false);
 		rdbtnOpcion4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

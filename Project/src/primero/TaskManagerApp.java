@@ -8,20 +8,28 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Rectangle;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class TaskManagerApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
-
+	private DefaultListModel<Tarea> modeloLista;
+    private JList<Tarea> tareas;  
 	/**
 	 * Launch the application.
 	 */
@@ -84,20 +92,95 @@ public class TaskManagerApp extends JFrame {
 		lblAdministradorDeTareas.setBounds(10, 11, 592, 31);
 		panelEntrada.add(lblAdministradorDeTareas);
 		
+		JPanel panelTareas = new JPanel();
+		panelTareas.setBackground(new Color(255, 255, 255));
+		panelTareas.setBounds(10, 169, 612, 634);
+		contentPane.add(panelTareas);
+		panelTareas.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 592, 612);
+		panelTareas.add(scrollPane);
+		
+		modeloLista = new DefaultListModel<>();
+        tareas = new JList<>(modeloLista);
+        tareas.setCellRenderer(new TaskCellRenderer());
+        tareas.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        scrollPane.setViewportView(tareas);
+		
 		JButton btnAgregarTarea = new JButton("Agregar Tarea");
 		btnAgregarTarea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tarea tarea = new Tarea(textFieldNombre.getText(), comboBoxPrioridad.getSelectedItem().toString());
+				String nombre = textFieldNombre.getText().trim();
+                String prioridad = comboBoxPrioridad.getSelectedItem().toString();
+                
+                if (nombre.isEmpty() || prioridad.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debes ingresar un nombre y una prioridad.");
+                    return;
+                }
+                Tarea nuevaTarea = new Tarea(nombre, prioridad);
+                modeloLista.addElement(nuevaTarea);
+
+                textFieldNombre.setText("");
+                comboBoxPrioridad.setSelectedIndex(0);
 			}
 		});
 		btnAgregarTarea.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		btnAgregarTarea.setBounds(419, 113, 183, 23);
 		panelEntrada.add(btnAgregarTarea);
 		
-		JPanel panelTareas = new JPanel();
-		panelTareas.setBackground(new Color(255, 255, 255));
-		panelTareas.setBounds(10, 169, 612, 634);
-		contentPane.add(panelTareas);
-		panelTareas.setLayout(null);
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        int[] indicesSeleccionados = tareas.getSelectedIndices();
+
+		        if (indicesSeleccionados.length == 0) {
+		            JOptionPane.showMessageDialog(null, "Selecciona al menos una tarea para eliminar.");
+		            return;
+		        }
+		        int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas eliminar las tareas seleccionadas?","Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+		        if (opcion == JOptionPane.YES_OPTION) {
+		        	if (indicesSeleccionados.length >= 0) {
+			            
+			        }
+		            for (int i = indicesSeleccionados.length - 1; i >= 0; i--) {
+		                modeloLista.remove(indicesSeleccionados[i]);
+		                Tarea tarea = modeloLista.get(indicesSeleccionados[i]);
+			            tarea.setSeleccionada(!tarea.isSeleccionada()); 
+			            tareas.repaint();
+		            }
+		        }
+			}
+		});
+		btnEliminar.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		btnEliminar.setBounds(286, 113, 123, 23);
+		panelEntrada.add(btnEliminar);
+		tareas.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int index = tareas.locationToIndex(evt.getPoint());
+		        if (index >= 0) {
+		            Tarea tarea = modeloLista.get(index);
+		            tarea.setSeleccionada(!tarea.isSeleccionada()); 
+		            tareas.repaint();
+		        }
+		    }
+		});
+		tareas.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int index = tareas.locationToIndex(evt.getPoint());
+		        if (index >= 0) {
+		            Rectangle bounds = tareas.getCellBounds(index, index);
+		            int anchoCelda = bounds.width;
+		            int xRelativo = evt.getX() - bounds.x;
+
+		            if (xRelativo > (anchoCelda * 3 / 4)) {
+		                Tarea tarea = modeloLista.get(index);
+		                tarea.setEstado(!tarea.isEstado());
+		                tareas.repaint();
+		            }
+		        }
+		    }
+		});
+		
 	}
 }

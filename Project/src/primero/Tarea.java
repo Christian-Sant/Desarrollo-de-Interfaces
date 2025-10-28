@@ -1,14 +1,17 @@
 package primero;
 
+import java.util.ArrayList;
+
 public class Tarea {
 	private String nombre;
 	private String prioridad;
 	private boolean estado;
-	private String estadoCompletadaPendiente;
+	private boolean seleccionada;
 	public Tarea(String nombre, String prioridad) {
 		this.nombre = nombre;
 		this.prioridad = prioridad;
 		this.estado = false;
+		this.seleccionada = false;
 	}
 	
 	public String getNombre() {
@@ -21,10 +24,6 @@ public class Tarea {
 	
 	public String getestadoCompletadaPendiente() {
 		return nombre;
-	}
-
-	public void setEstadoCompletadaPendiente(String estadoCompletadaPendiente) {
-		this.estadoCompletadaPendiente = estadoCompletadaPendiente;
 	}
 
 	public String getPrioridad() {
@@ -42,16 +41,15 @@ public class Tarea {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-
-	private void estadoTarea() {
-		if(isEstado()) {
-			setEstadoCompletadaPendiente("Completada");
-		}
-		else {
-			setEstadoCompletadaPendiente("Pendiente");
-		}
-	}
 	
+	public boolean isSeleccionada() {
+		return seleccionada;
+	}
+
+	public void setSeleccionada(boolean seleccionada) {
+		this.seleccionada = seleccionada;
+	}
+
 	public String toString() {
 		return "Nombre: " + getNombre() + " Prioridad: " + getPrioridad();
 	}
