@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -23,7 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public class TaskManagerApp extends JFrame {
-	//CHRISTIAN JAY LAGO
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
@@ -142,6 +143,7 @@ public class TaskManagerApp extends JFrame {
 		        	if (indicesSeleccionados.length >= 0) {
 		        		for (int i = indicesSeleccionados.length - 1; i >= 0; i--) {
 			                modeloLista.remove(indicesSeleccionados[i]);
+			               
 			            }
 			        }
 		        }

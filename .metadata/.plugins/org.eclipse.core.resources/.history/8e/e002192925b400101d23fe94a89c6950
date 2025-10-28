@@ -55,11 +55,10 @@ public class TaskCellRenderer extends JPanel implements ListCellRenderer<Tarea> 
 	            	lblIconoPrioridad.setIcon(new ImageIcon("C:\\Users\\Tarde\\Downloads\\circuloVerde.png"));
 	                break;
 	        }
-	        if(estado) {
-	            setBackground(Color.CYAN);
-	        }
-	        else {
-	        	setBackground(Color.WHITE);
+	        if(tarea.isSeleccionada()) {
+	            setBackground(Color.LIGHT_GRAY);
+	        } else {
+	            setBackground(Color.WHITE);
 	        }
 	        setOpaque(true);
 	        return this;

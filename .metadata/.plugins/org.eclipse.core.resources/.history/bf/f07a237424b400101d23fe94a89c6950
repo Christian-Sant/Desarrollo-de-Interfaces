@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -23,7 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public class TaskManagerApp extends JFrame {
-	//CHRISTIAN JAY LAGO
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
@@ -139,18 +140,34 @@ public class TaskManagerApp extends JFrame {
 		        }
 		        int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas eliminar las tareas seleccionadas?","Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 		        if (opcion == JOptionPane.YES_OPTION) {
-		        	if (indicesSeleccionados.length >= 0) {
-		        		for (int i = indicesSeleccionados.length - 1; i >= 0; i--) {
-			                modeloLista.remove(indicesSeleccionados[i]);
-			            }
-			        }
+		            // Eliminamos de atrás hacia adelante para evitar problemas de índices
+		            for (int i = indicesSeleccionados.length - 1; i >= 0; i--) {
+		                int index = indicesSeleccionados[i];
+		                Tarea tarea = modeloLista.get(index);
+		                
+		                // Solo cambiamos el estado si realmente se va a eliminar
+		                tarea.setSeleccionada(false);
+
+		                // Eliminamos la tarea del modelo
+		                modeloLista.remove(index);
+		            }
+		            tareas.repaint();
 		        }
 			}
 		});
 		btnEliminar.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		btnEliminar.setBounds(286, 113, 123, 23);
 		panelEntrada.add(btnEliminar);
-		
+		/*tareas.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int index = tareas.locationToIndex(evt.getPoint());
+		        if (index >= 0) {
+		            Tarea tarea = modeloLista.get(index);
+		            tarea.setSeleccionada(!tarea.isSeleccionada()); 
+		            tareas.repaint();
+		        }
+		    }
+		});*/
 		tareas.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
 		        int index = tareas.locationToIndex(evt.getPoint());

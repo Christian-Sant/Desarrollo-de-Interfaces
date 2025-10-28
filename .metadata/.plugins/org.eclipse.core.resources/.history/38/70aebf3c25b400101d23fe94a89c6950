@@ -58,9 +58,6 @@ public class TaskCellRenderer extends JPanel implements ListCellRenderer<Tarea> 
 	        if(estado) {
 	            setBackground(Color.CYAN);
 	        }
-	        else {
-	        	setBackground(Color.WHITE);
-	        }
 	        setOpaque(true);
 	        return this;
     }
