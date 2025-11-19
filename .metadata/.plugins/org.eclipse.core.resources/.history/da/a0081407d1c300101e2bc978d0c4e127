@@ -1,0 +1,27 @@
+package ThreadsSuperMercado;
+
+public class Caja {
+	private Cliente cliente;
+	private double totalAPagar;
+	private int caja;
+	private double total;
+	public Caja(int caja) {
+		this.caja = caja;
+	}
+	public synchronized double pagar(double totalAPagar) {
+		setTotalAPagar(totalAPagar);
+		return getTotalAPagar();
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	public double getTotalAPagar() {
+		return totalAPagar;
+	}
+	public void setTotalAPagar(double totalAPagar) {
+		this.totalAPagar = totalAPagar;
+	}
+}

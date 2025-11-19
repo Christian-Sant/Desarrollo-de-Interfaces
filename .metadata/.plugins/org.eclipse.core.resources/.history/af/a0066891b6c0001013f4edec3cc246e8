@@ -1,0 +1,146 @@
+package GestionDeNotas;
+
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.undo.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class App extends JFrame {
+
+    private DefaultListModel<String> noteListModel;
+    private JList<String> noteList;
+    private JTextArea noteTextArea;
+    private UndoManager undoManager;
+
+    public App() {
+        super("Gestor de Notas");
+
+        // Configurar Look & Feel por defecto
+        setLookAndFeel("Nimbus");
+
+        noteListModel = new DefaultListModel<>();
+        noteList = new JList<>(noteListModel);
+        noteList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        noteList.setToolTipText("Lista de notas");
+
+        noteTextArea = new JTextArea(10, 30);
+        noteTextArea.setLineWrap(true);
+        noteTextArea.setWrapStyleWord(true);
+        noteTextArea.setToolTipText("Escribe aquí tu nota");
+
+        undoManager = new UndoManager();
+        noteTextArea.getDocument().addUndoableEditListener(undoManager);
+
+        // Panel de botones
+        JButton addButton = new JButton("Agregar");
+        addButton.setToolTipText("Agregar nueva nota (Ctrl+N)");
+        addButton.setMnemonic(KeyEvent.VK_N); // Acceso por teclado Alt+N
+        addButton.addActionListener(e -> addNote());
+
+        JButton deleteButton = new JButton("Eliminar");
+        deleteButton.setToolTipText("Eliminar nota seleccionada (Ctrl+D)");
+        deleteButton.setMnemonic(KeyEvent.VK_D);
+        deleteButton.addActionListener(e -> deleteNote());
+
+        JButton undoButton = new JButton("Deshacer");
+        undoButton.setToolTipText("Deshacer último cambio (Ctrl+Z)");
+        undoButton.setMnemonic(KeyEvent.VK_Z);
+        undoButton.addActionListener(e -> undo());
+
+        JButton redoButton = new JButton("Rehacer");
+        redoButton.setToolTipText("Rehacer último cambio (Ctrl+Y)");
+        redoButton.setMnemonic(KeyEvent.VK_Y);
+        redoButton.addActionListener(e -> redo());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(undoButton);
+        buttonPanel.add(redoButton);
+
+        // Sincronizar selección de lista con área de texto
+        noteList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String selected = noteList.getSelectedValue();
+                noteTextArea.setText(selected != null ? selected : "");
+            }
+        });
+
+        // Atajos de teclado
+        InputMap im = noteTextArea.getInputMap(JComponent.WHEN_FOCUSED);
+        ActionMap am = noteTextArea.getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK), "undo");
+        am.put("undo", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                undo();
+            }
+        });
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_DOWN_MASK), "redo");
+        am.put("redo", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                redo();
+            }
+        });
+
+        // Layout
+        setLayout(new BorderLayout());
+        add(new JScrollPane(noteList), BorderLayout.WEST);
+        add(new JScrollPane(noteTextArea), BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void addNote() {
+        String text = noteTextArea.getText().trim();
+        if (!text.isEmpty()) {
+            noteListModel.addElement(text);
+            noteTextArea.setText("");
+        }
+    }
+
+    private void deleteNote() {
+        int selectedIndex = noteList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            noteListModel.remove(selectedIndex);
+            noteTextArea.setText("");
+        }
+    }
+
+    private void undo() {
+        if (undoManager.canUndo()) {
+            undoManager.undo();
+        }
+    }
+
+    private void redo() {
+        if (undoManager.canRedo()) {
+            undoManager.redo();
+        }
+    }
+
+    private void setLookAndFeel(String name) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if (name.equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    SwingUtilities.updateComponentTreeUI(this);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo aplicar Look & Feel: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(App::new);
+    }
+}

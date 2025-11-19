@@ -39,8 +39,8 @@ public class numeroSecreto extends JFrame {
 	 * Create the frame.
 	 */
 	public static int numeroRandom() {
-		numeroAleatorio=min+random.nextInt(max - min + 1)
-		return 
+		//numeroAleatorio=min+random.nextInt(max - min + 1)
+		return 2 ;
 	}
 	public numeroSecreto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

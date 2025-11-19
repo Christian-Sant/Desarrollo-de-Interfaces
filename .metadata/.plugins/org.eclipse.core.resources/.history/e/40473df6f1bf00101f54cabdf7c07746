@@ -1,0 +1,20 @@
+package hilos;
+//CHRISTIAN JAY LAGO
+public class Main{
+	private static Cajero cajero;
+	public static void main(String[] args) {
+		int atendido = 0;
+		for(int i = 1; i <= 6; i++) {
+			atendido++;
+			Thread cliente = new Thread(cajero = new Cajero(atendido));
+			try {
+				cliente.start();
+				cliente.join();
+				cliente.run();
+			} catch (InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+	}
+	
+}

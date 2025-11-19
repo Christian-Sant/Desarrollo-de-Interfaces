@@ -1,0 +1,113 @@
+package GestionDeNotas;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class IniciarSesion extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+	private final JPanel contentPanel = new JPanel();
+	private JTextField textFieldUsuario;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			IniciarSesion dialog = new IniciarSesion();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public IniciarSesion() {
+		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
+		getContentPane().setLayout(null);
+		contentPanel.setBounds(0, 14, 434, 214);
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel);
+		contentPanel.setLayout(null);
+		JLabel lblUsuario = new JLabel("Usuario: ");
+		lblUsuario.setBounds(84, 79, 89, 14);
+		contentPanel.add(lblUsuario);
+		
+		JLabel lblPassword = new JLabel("Contraseña:");
+		lblPassword.setBounds(84, 131, 89, 14);
+		contentPanel.add(lblPassword);
+		
+		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBounds(185, 76, 146, 20);
+		contentPanel.add(textFieldUsuario);
+		textFieldUsuario.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(185, 128, 146, 20);
+		contentPanel.add(passwordField);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setBounds(0, 228, 434, 33);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(textFieldUsuario.getText().toString().equals("admin") && passwordField.getText().toString().equals("12345")) {
+							setVisible(false);
+							SplashScreen splash = new SplashScreen();
+							splash.setVisible(true);
+							Thread hiloSplash = new Thread(() -> {
+				                for (int i = 0; i <= 100; i++) {
+				                    try {
+				                        Thread.sleep(50); 
+				                    } catch (InterruptedException ex) {
+				                        ex.printStackTrace();
+				                    }
+				                    splash.actualizarProgreso(i);
+				                }
+				                splash.dispose();
+				                App app = new App();
+				                app.setVisible(true);
+				            });
+
+				            hiloSplash.start();
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "RELLENE LOS CAMPOS BIEN", "WARNING", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+		
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(0, 0, 434, 261);
+		getContentPane().add(lblImagen);
+	}
+}

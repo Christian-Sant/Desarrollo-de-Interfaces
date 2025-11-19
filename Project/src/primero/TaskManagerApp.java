@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -108,6 +109,7 @@ public class TaskManagerApp extends JFrame {
         scrollPane.setViewportView(tareas);
 		
 		JButton btnAgregarTarea = new JButton("Agregar Tarea");
+		btnAgregarTarea.setMnemonic(KeyEvent.VK_N);
 		btnAgregarTarea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = textFieldNombre.getText().trim();
@@ -129,6 +131,7 @@ public class TaskManagerApp extends JFrame {
 		panelEntrada.add(btnAgregarTarea);
 		
 		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setToolTipText("Opción de borrar linea");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		        int[] indicesSeleccionados = tareas.getSelectedIndices();

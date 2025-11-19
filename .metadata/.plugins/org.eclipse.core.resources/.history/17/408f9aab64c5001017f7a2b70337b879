@@ -1,0 +1,38 @@
+package ThreadsSuperMercado;
+
+public class Caja {
+	private double totalAPagar;
+	private int numeroCaja;
+	private double total = 0;
+	private Cliente cliente;
+	public Caja(int numeroCaja) {
+		this.numeroCaja = numeroCaja;
+	}
+	@Override
+	public String toString() {
+		return "en la caja " + getNumeroCaja() + " ha cobrado en total " +  getTotal();
+	}
+	public synchronized void pagar(double totalAPagar) {
+		setTotalAPagar(totalAPagar);
+		setTotal(getTotal() + getTotalAPagar());
+	}
+	public int getNumeroCaja() {
+		return numeroCaja;
+	}
+	public void setNumeroCaja(int numeroCaja) {
+		this.numeroCaja = numeroCaja;
+	}
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	
+	public double getTotalAPagar() {
+		return totalAPagar;
+	}
+	public void setTotalAPagar(double totalAPagar) {
+		this.totalAPagar = totalAPagar;
+	}
+}

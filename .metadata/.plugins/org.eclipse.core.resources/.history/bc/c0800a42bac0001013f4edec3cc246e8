@@ -1,0 +1,114 @@
+package GestionDeNotas;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+
+public class App extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private DefaultListModel<String> modelo = new DefaultListModel<>();
+	JList<String> list = new JList<>(modelo);
+	ArrayList<String> notas = new ArrayList<>();	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		 try {
+		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					App frame = new App();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public App() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 790, 512);
+		setLocationRelativeTo(null);     
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(175, 11, 589, 423);
+		contentPane.add(scrollPane);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 11, 155, 423);
+		contentPane.add(scrollPane_1);
+		
+		scrollPane_1.setViewportView(list);
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+		            if (UIManager.getLookAndFeel().getName().equals("Metal")) {
+		                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		            } else {
+		                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // Metal
+		            }
+		            SwingUtilities.updateComponentTreeUI(contentPane);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		        String nombreNota = JOptionPane.showInputDialog(null, "Nombre de la Nota:");
+		        if (nombreNota != null && !nombreNota.trim().isEmpty()) {
+		            String contenido = textArea.getText().trim();
+		            notas.add(contenido);
+		            modelo.addElement(nombreNota);
+		            textArea.setText("");
+		        } else {
+		            JOptionPane.showMessageDialog(null, "No se ingresó un nombre para la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
+		        }
+		    }
+		});
+		list.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+		    public void valueChanged(javax.swing.event.ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int indice = list.getSelectedIndex();
+		            if (indice != -1) {
+		                String contenido = notas.get(indice);
+		                textArea.setText(contenido);         
+		            }
+		        }
+		    }
+		});
+		btnAgregar.setBounds(675, 439, 89, 23);
+		contentPane.add(btnAgregar);
+		
+		
+	}
+}

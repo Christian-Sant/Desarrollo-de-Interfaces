@@ -5,6 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry excluding="ProyectoInfoPointPro/resources/" kind="src" path="src"/>
+	<classpathentry kind="output" path="bin/ProyectoInfoPointPro/resources"/>
 </classpath>

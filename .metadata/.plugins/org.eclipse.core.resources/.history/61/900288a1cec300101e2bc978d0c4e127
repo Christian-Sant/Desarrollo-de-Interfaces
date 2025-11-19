@@ -1,0 +1,14 @@
+package ThreadsSuperMercado;
+
+public class Cliente extends Thread{
+	private String caja;
+	private double cuantoPaga;
+	public Cliente(String caja, double cuantoPaga) {
+		this.caja = caja;
+		this.cuantoPaga = cuantoPaga;
+	}
+	@Override
+	public void run() {
+		//caja.pagar(100);
+	}
+}

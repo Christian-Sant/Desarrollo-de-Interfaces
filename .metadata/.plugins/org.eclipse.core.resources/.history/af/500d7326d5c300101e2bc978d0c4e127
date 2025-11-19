@@ -1,0 +1,31 @@
+package ThreadsSuperMercado;
+
+public class Cliente extends Thread{
+	private Caja caja;
+	private double cuantoPaga;
+	public Cliente(Caja caja, double cuantoPaga) {
+		this.caja = caja;
+		this.cuantoPaga = cuantoPaga;
+	}
+	@Override
+	public void run() {
+		caja.pagar(getCuantoPaga());
+		System.out.println(toString());
+	}
+	@Override
+	public String toString() {
+		return "El cliente ha usado la caja " + getCaja() + " y ha pagado en total " + getCuantoPaga() + " y " + caja.toString();
+	}
+	public double getCuantoPaga() {
+		return cuantoPaga;
+	}
+	public void setCuantoPaga(double cuantoPaga) {
+		this.cuantoPaga = cuantoPaga;
+	}
+	public Caja getCaja() {
+		return caja;
+	}
+	public void setCaja(Caja caja) {
+		this.caja = caja;
+	}
+}

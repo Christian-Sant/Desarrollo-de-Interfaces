@@ -1,0 +1,33 @@
+package ThreadsSuperMercado;
+
+public class Main {
+	public static void main(String[] args) {
+		for(int i = 1; i <= numeroCliente();i++) {
+			Thread cliente = new Thread(new Cliente(new Caja(cajaRandom()),pagoCliente()));
+			try {
+				cliente.start();
+				cliente.join();
+				cliente.run();
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+	}
+	public static int cajaRandom() {
+		int numero = (int) (Math.random()*(5-1+1)+1);
+		return numero;
+	}
+	public static int numeroCliente() {
+		int numero = (int) (Math.random()*(20-1+1)+1);
+		return numero;
+	}
+	public static double pagoCliente() {
+		double numero = (double) (Math.random()*(300-1+1)+1);
+		return numero;
+	}
+	public static int tiempo() {
+		int numero = (int) (Math.random()*(3000-500+1)+500);
+		return numero;
+	}
+}
