@@ -5,7 +5,7 @@ public class Semaforo {
 	
 	public synchronized void esperarLuzVerde() {//Este metodo espera que el estado sea verde, osea que verde == true
 		while(!verde) {
-			System.out.println(Thread.currentThread().getName()+"esta esperando que sea rojo");
+			System.out.println(Thread.currentThread().getName()+" esta esperando que sea verde");
 			try {
 				wait();//El coche se para y espera hasta que el semaforo se ponga verde(true).
 			} catch (InterruptedException e) {

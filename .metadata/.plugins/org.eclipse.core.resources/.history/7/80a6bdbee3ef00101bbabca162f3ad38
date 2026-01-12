@@ -1,0 +1,33 @@
+package Cine;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+public class Formulario extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Create the panel.
+	 */
+	public Formulario() {
+		setLayout(null);
+		
+		JLabel lblTitulo = new JLabel("Titulo:");
+		lblTitulo.setBounds(32, 21, 46, 14);
+		add(lblTitulo);
+		
+		JLabel lblTipo = new JLabel("New label");
+		lblTipo.setBounds(32, 60, 46, 14);
+		add(lblTipo);
+		
+		JLabel lblResumen = new JLabel("New label");
+		lblResumen.setBounds(32, 116, 46, 14);
+		add(lblResumen);
+		
+		JLabel lblImagen = new JLabel("New label");
+		lblImagen.setBounds(32, 173, 46, 14);
+		add(lblImagen);
+
+	}
+}

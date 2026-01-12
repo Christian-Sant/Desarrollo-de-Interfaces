@@ -1,0 +1,95 @@
+package Cine;
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class Formulario extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textField;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Formulario frame = new Formulario();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Formulario() {
+	    setTitle("Nueva Película");
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setBounds(100, 100, 450, 400);
+
+	    contentPane = new JPanel();
+	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	    contentPane.setLayout(null);
+	    setContentPane(contentPane);
+
+	    JLabel lblTitulo = new JLabel("Titulo:");
+	    lblTitulo.setBounds(32, 21, 46, 14);
+	    contentPane.add(lblTitulo);
+
+	    JLabel lblTipo = new JLabel("Tipo:");
+	    lblTipo.setBounds(32, 60, 46, 14);
+	    contentPane.add(lblTipo);
+
+	    JLabel lblResumen = new JLabel("Resumen:");
+	    lblResumen.setBounds(32, 116, 67, 14);
+	    contentPane.add(lblResumen);
+
+	    JLabel lblImagen = new JLabel("Imagen:");
+	    lblImagen.setBounds(32, 329, 46, 14);
+	    contentPane.add(lblImagen);
+
+	    textField = new JTextField();
+	    textField.setBounds(95, 18, 153, 20);
+	    contentPane.add(textField);
+
+	    JComboBox<String> comboBox = new JComboBox<>();
+	    comboBox.setModel(new DefaultComboBoxModel<>(
+	            new String[] {"", "Acción", "Comedia", "Drama", "Ciencia ficción"}));
+	    comboBox.setBounds(95, 56, 153, 22);
+	    contentPane.add(comboBox);
+
+	    JScrollPane scrollPane = new JScrollPane();
+	    scrollPane.setBounds(95, 116, 249, 150);
+	    contentPane.add(scrollPane);
+
+	    JTextArea textArea = new JTextArea();
+	    scrollPane.setViewportView(textArea);
+
+	    JButton btnSeleccionarImagen = new JButton("Seleccionar");
+	    btnSeleccionarImagen.setBounds(95, 325, 120, 23);
+	    btnSeleccionarImagen.addActionListener(e -> {
+	        JFileChooser fileChooser = new JFileChooser();
+	        fileChooser.showOpenDialog(Formulario.this);
+	    });
+	    contentPane.add(btnSeleccionarImagen);
+	}
+
+}

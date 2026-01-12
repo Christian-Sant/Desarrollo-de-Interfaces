@@ -1,0 +1,50 @@
+package Cine;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
+public class Formulario extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	private JTextField textField;
+
+	/**
+	 * Create the panel.
+	 */
+	public Formulario() {
+		setLayout(null);
+		
+		JLabel lblTitulo = new JLabel("Titulo:");
+		lblTitulo.setBounds(32, 21, 46, 14);
+		add(lblTitulo);
+		
+		JLabel lblTipo = new JLabel("Tipo:");
+		lblTipo.setBounds(32, 60, 46, 14);
+		add(lblTipo);
+		
+		JLabel lblResumen = new JLabel("Resumen:");
+		lblResumen.setBounds(32, 116, 67, 14);
+		add(lblResumen);
+		
+		JLabel lblImagen = new JLabel("Imagen:");
+		lblImagen.setBounds(32, 329, 46, 14);
+		add(lblImagen);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(95, 116, 249, 199);
+		add(scrollPane);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(95, 56, 123, 22);
+		add(comboBox);
+		
+		textField = new JTextField();
+		textField.setBounds(96, 18, 153, 20);
+		add(textField);
+		textField.setColumns(10);
+
+	}
+}
