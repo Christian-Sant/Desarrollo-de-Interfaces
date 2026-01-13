@@ -1,0 +1,13 @@
+{
+  "usuarios" : [ {
+    "nombre" : "hola",
+    "dni" : "2",
+    "email" : "2"
+  }, {
+    "nombre" : "CHRISTIAN",
+    "dni" : "SSSS2",
+    "email" : "S"
+  } ],
+  "libros" : [ ],
+  "prestamos" : [ ]
+}
