@@ -1,73 +1,86 @@
 package Cine;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollBar;
 
 public class CineApp extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CineApp frame = new CineApp();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private DefaultListModel<Pelicula> modeloPeliculas = new DefaultListModel<>();
 
-	/**
-	 * Create the frame.
-	 */
-	public CineApp() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    CineApp frame = new CineApp();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 584, 561);
-		contentPane.add(scrollPane);
-		
-		JMenuBar menuBar = new JMenuBar();
-		scrollPane.setColumnHeaderView(menuBar);
-		
-		JMenuItem mntmPeliculas = new JMenuItem("Peliculas");
-		menuBar.add(mntmPeliculas);
-		
-		JMenuItem mntmNuevaPelicula = new JMenuItem("Añadir nueva Pelicula");
-		mntmNuevaPelicula.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 Formulario formulario = new Formulario();
-			     formulario.setVisible(true);
-			     setVisible(false);
-			}
-		});
-		menuBar.add(mntmNuevaPelicula);
-		
-		JMenuItem mntmGrafico = new JMenuItem("Grafico");
-		menuBar.add(mntmGrafico);
-	}
+    /**
+     * Create the frame.
+     */
+    public CineApp() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 600, 71);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        setLocationRelativeTo(null);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(0, 0, 584, 561);
+        contentPane.add(scrollPane);
+
+        JMenuBar menuBar = new JMenuBar();
+        scrollPane.setColumnHeaderView(menuBar);
+
+        JMenuItem mntmPeliculas = new JMenuItem("Películas");
+        menuBar.add(mntmPeliculas);
+        mntmPeliculas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Peliculas pelis = new Peliculas(CineApp.this, modeloPeliculas);
+                pelis.setVisible(true);
+                setVisible(false); 
+            }
+        });
+
+        JMenuItem mntmNuevaPelicula = new JMenuItem("Añadir nueva Película");
+        menuBar.add(mntmNuevaPelicula);
+        mntmNuevaPelicula.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Formulario form = new Formulario(CineApp.this, modeloPeliculas);
+                form.setVisible(true);
+                setVisible(false); 
+            }
+        });
+
+        JMenuItem mntmGrafico = new JMenuItem("Gráfico");
+        menuBar.add(mntmGrafico);
+        menuBar.add(mntmGrafico);
+        mntmGrafico.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GraficoPeliculas grafico = new GraficoPeliculas(CineApp.this, modeloPeliculas);
+                grafico.setVisible(true);
+                setVisible(false); 
+            }
+        });
+    }
+
+    public void volverAlMenu() {
+        setVisible(true);
+    }
 }

@@ -6,5 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="ProyectoInfoPointPro/resources/" kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Tarde/Downloads/mysql-connector-java-5.1.18-bin (1).jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/ProyectoInfoPointPro/resources"/>
 </classpath>

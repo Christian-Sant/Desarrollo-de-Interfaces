@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="constructor"/>
+		<item key="selection" value="Error obtener jugadores:"/>
 		<list key="findhistory">
+			<item value="Error obtener jugadores:"/>
+			<item value="aniadirJugadorConID"/>
+			<item value="CineApp"/>
 			<item value="constructor"/>
 			<item value="eliminado()"/>
 			<item value="eliminado"/>
@@ -20,9 +23,6 @@
 			<item value="nombreBandera"/>
 			<item value="TAM_REGISTRO"/>
 			<item value="nombreEstudianteConfirmacion"/>
-			<item value="contentPane"/>
-			<item value="repaint"/>
-			<item value="mousePressed"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
