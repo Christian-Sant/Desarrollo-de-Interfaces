@@ -6,8 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="Error obtener jugadores:"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="Datos"/>
+			<item value="Datos guardados correctamente "/>
+			<item value="Datos guardados correctamente en hotel.json"/>
+			<item value="JsonManager.guardar(data);"/>
 			<item value="Error obtener jugadores:"/>
 			<item value="aniadirJugadorConID"/>
 			<item value="CineApp"/>
@@ -19,10 +23,6 @@
 			<item value="guardarLibros"/>
 			<item value="sc."/>
 			<item value="sc"/>
-			<item value="null"/>
-			<item value="nombreBandera"/>
-			<item value="TAM_REGISTRO"/>
-			<item value="nombreEstudianteConfirmacion"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

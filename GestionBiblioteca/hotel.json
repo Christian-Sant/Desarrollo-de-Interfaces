@@ -1,0 +1,11 @@
+{
+  "clientes": [
+    {
+      "nombre": "Christian",
+      "documento": "00000",
+      "telefono": "77777"
+    }
+  ],
+  "habitaciones": [],
+  "reservas": []
+}
