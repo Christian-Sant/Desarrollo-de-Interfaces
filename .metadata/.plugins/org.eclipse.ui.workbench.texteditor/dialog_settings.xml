@@ -8,6 +8,7 @@
 		<item key="isRegEx" value="false"/>
 		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="inet"/>
 			<item value="Datos"/>
 			<item value="Datos guardados correctamente "/>
 			<item value="Datos guardados correctamente en hotel.json"/>
@@ -22,7 +23,6 @@
 			<item value="actualizarNotaEstudiante"/>
 			<item value="guardarLibros"/>
 			<item value="sc."/>
-			<item value="sc"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

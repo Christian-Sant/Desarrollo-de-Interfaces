@@ -6,6 +6,31 @@
       "telefono": "77777"
     }
   ],
-  "habitaciones": [],
-  "reservas": []
+  "habitaciones": [
+    {
+      "numero": 2,
+      "tipo": "doble",
+      "precioPorNoche": 20.0,
+      "disponible": true
+    }
+  ],
+  "reservas": [
+    {
+      "cliente": {
+        "nombre": "Christian",
+        "documento": "00000",
+        "telefono": "77777"
+      },
+      "habitacion": {
+        "numero": 2,
+        "tipo": "doble",
+        "precioPorNoche": 20.0,
+        "disponible": true
+      },
+      "fechaEntrada": "2000-01-01",
+      "fechaSalida": "2000-01-05",
+      "costoTotal": 80.0,
+      "activa": false
+    }
+  ]
 }
