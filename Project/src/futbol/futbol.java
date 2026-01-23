@@ -16,6 +16,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+/**
+ * Ventana principal de la aplicación de gestión de fútbol.
+ * Permite crear, actualizar y eliminar equipos y jugadores.
+ * Muestra listas de equipos y jugadores y gestiona la navegación entre ventanas.
+ * 
+ * @author Christian
+ * @version 1.0
+ * @since 2026-01-19
+ * @see Crear
+ * @see ActualizarEquipo
+ * @see ActualizarJugador
+ * @see BaseDeDatos
+ */
 public class futbol extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +40,11 @@ public class futbol extends JFrame {
     private JList<String> listEquipos;
     private JList<String> listJugadores;
 
+    /**
+     * Método principal que inicia la ventana principal de la aplicación.
+     * 
+     * @param args Argumentos de línea de comandos (no se usan)
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -40,8 +58,11 @@ public class futbol extends JFrame {
         });
     }
 
+    /**
+     * Constructor de la ventana principal.
+     * Inicializa botones, listas y etiquetas, y carga los equipos existentes.
+     */
     public futbol() {
-    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 557, 479);
         contentPane = new JPanel();
@@ -49,8 +70,12 @@ public class futbol extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
+
         JButton btnCrear = new JButton("Crear");
         btnCrear.addActionListener(new ActionListener() {
+            /**
+             * Muestra la ventana Crear para añadir un nuevo equipo.
+             */
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 crear.setVisible(true);
@@ -61,6 +86,10 @@ public class futbol extends JFrame {
 
         JButton btnActualizar = new JButton("Actualizar");
         btnActualizar.addActionListener(new ActionListener() {
+            /**
+             * Abre la ventana de actualización para el equipo o jugador seleccionado.
+             * Muestra un aviso si no se ha seleccionado ningún elemento.
+             */
             public void actionPerformed(ActionEvent e) {
                 String equipoSeleccionado = listEquipos.getSelectedValue();
                 String jugadorSeleccionado = listJugadores.getSelectedValue();
@@ -82,12 +111,15 @@ public class futbol extends JFrame {
                 }
             }
         });
-
         btnActualizar.setBounds(209, 389, 110, 23);
         contentPane.add(btnActualizar);
 
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.addActionListener(new ActionListener() {
+            /**
+             * Elimina el equipo seleccionado y todos sus jugadores.
+             * Solicita confirmación antes de eliminar.
+             */
             public void actionPerformed(ActionEvent e) {
                 String equipoSeleccionado = listEquipos.getSelectedValue();
 
@@ -140,6 +172,9 @@ public class futbol extends JFrame {
         cargarEquipos();
 
         listEquipos.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * Al seleccionar un equipo, carga la lista de jugadores correspondientes.
+             */
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     String equipoSeleccionado = listEquipos.getSelectedValue();
@@ -149,6 +184,9 @@ public class futbol extends JFrame {
         });
     }
 
+    /**
+     * Carga todos los equipos desde la base de datos y los muestra en la lista.
+     */
     private void cargarEquipos() {
         DefaultListModel<String> modelo = new DefaultListModel<String>();
         ArrayList<String> equipos = BaseDeDatos.obtenerNombresEquipos();
@@ -160,6 +198,11 @@ public class futbol extends JFrame {
         listEquipos.setModel(modelo);
     }
 
+    /**
+     * Carga los jugadores del equipo especificado y los muestra en la lista.
+     * 
+     * @param nombreEquipo Nombre del equipo cuyos jugadores se cargarán. Puede ser null.
+     */
     private void cargarJugadores(String nombreEquipo) {
         DefaultListModel<String> modelo = new DefaultListModel<String>();
 

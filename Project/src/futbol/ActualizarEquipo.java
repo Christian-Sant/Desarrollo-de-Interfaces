@@ -10,6 +10,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Ventana para actualizar los datos de un equipo de fútbol.
+ * Permite modificar nombre, ciudad y estadio de un equipo existente.
+ * 
+ * @author Christian
+ * @version 1.0
+ * @since 2026-01-19
+ */
 public class ActualizarEquipo extends JFrame {
 
     private JPanel contentPane;
@@ -18,6 +26,12 @@ public class ActualizarEquipo extends JFrame {
     private JTextField textEstadio;
     private String nombreOriginal;
 
+    /**
+     * Constructor de la ventana ActualizarEquipo.
+     * Carga los datos actuales del equipo y permite modificarlos.
+     * 
+     * @param nombreEquipo Nombre del equipo que se desea actualizar.
+     */
     public ActualizarEquipo(String nombreEquipo) {
         this.nombreOriginal = nombreEquipo;
 
@@ -28,6 +42,7 @@ public class ActualizarEquipo extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
+
         JLabel lblNombre = new JLabel("Nombre");
         lblNombre.setBounds(20, 11, 80, 14);
         contentPane.add(lblNombre);
@@ -59,6 +74,11 @@ public class ActualizarEquipo extends JFrame {
         contentPane.add(btnActualizar);
 
         btnActualizar.addActionListener(new ActionListener() {
+            /**
+             * Evento que se ejecuta al presionar el botón Actualizar.
+             * Toma los valores de los campos de texto y actualiza el equipo
+             * en la base de datos si todos los campos están completos.
+             */
             public void actionPerformed(ActionEvent e) {
                 String nuevoNombre = textNombre.getText();
                 String nuevaCiudad = textCiudad.getText();

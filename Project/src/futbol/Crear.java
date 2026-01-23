@@ -10,6 +10,17 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Ventana para crear un nuevo equipo de fútbol.
+ * Permite ingresar nombre, ciudad y estadio del equipo y guardarlo en la base de datos.
+ * Al crear un equipo, también abre la ventana para agregar jugadores a ese equipo.
+ * 
+ * @author Christian
+ * @version 1.0
+ * @since 2026-01-19
+ * @see BaseDeDatos#aniadirEquipo()
+ * @see CrearJugadores
+ */
 public class Crear extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -22,6 +33,11 @@ public class Crear extends JFrame {
     private static utilidades util = new utilidades();
     private static CrearJugadores jugadores = new CrearJugadores();
 
+    /**
+     * Método principal que lanza la ventana de creación de equipo.
+     * 
+     * @param args Argumentos de línea de comandos (no se usan).
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -35,8 +51,13 @@ public class Crear extends JFrame {
         });
     }
 
+    /**
+     * Constructor de la ventana Crear.
+     * Inicializa los campos de texto y botones para ingresar los datos del equipo.
+     * Al presionar "Crear", agrega el equipo a la base de datos y abre la ventana
+     * para agregar jugadores.
+     */
     public Crear() {
-    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 369, 209);
         contentPane = new JPanel();
@@ -44,6 +65,7 @@ public class Crear extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
+
         JLabel lblNombre = new JLabel("Nombre");
         lblNombre.setBounds(20, 11, 46, 14);
         contentPane.add(lblNombre);
@@ -73,6 +95,9 @@ public class Crear extends JFrame {
 
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
+            /**
+             * Cierra la ventana de creación y vuelve a la ventana principal.
+             */
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 futbol.setVisible(true);
@@ -83,20 +108,23 @@ public class Crear extends JFrame {
 
         JButton btnCrear = new JButton("Crear");
         btnCrear.addActionListener(new ActionListener() {
+            /**
+             * Crea un nuevo equipo y lo añade a la base de datos.
+             * Luego abre la ventana para agregar jugadores a ese equipo.
+             */
             public void actionPerformed(ActionEvent e) {
-
                 int id = util.generarNumeroAleatorio();
                 String nombre = textFieldNombre.getText();
                 String ciudad = textFieldCiudad.getText();
                 String estadio = textFieldEstadio.getText();
 
                 bbdd.sentenciaCrear = "INSERT INTO equipos (id, nombre, ciudad, estadio) VALUES (" +
-                    id + ", '" + nombre + "', '" + ciudad + "', '" + estadio + "')";
+                        id + ", '" + nombre + "', '" + ciudad + "', '" + estadio + "')";
 
                 bbdd.aniadirEquipo();
                 setVisible(false);
 
-                jugadores.setNombreEquipo(nombre); 
+                jugadores.setNombreEquipo(nombre);
                 textFieldNombre.setText("");
                 textFieldCiudad.setText("");
                 textFieldEstadio.setText("");

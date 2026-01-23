@@ -11,6 +11,16 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Ventana para crear los jugadores de un equipo.
+ * Permite ingresar nombre y posición de cada jugador y guardarlos en la base de datos.
+ * Controla el número total de jugadores a crear por equipo.
+ * 
+ * @author Christian
+ * @version 1.0
+ * @since 2026-01-19
+ * @see BaseDeDatos#aniadirJugador(String, String, String)
+ */
 public class CrearJugadores extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +31,11 @@ public class CrearJugadores extends JFrame {
     private int totalJugadores = 0;
     private String nombreEquipo;
 
+    /**
+     * Método principal que lanza la ventana de creación de jugadores.
+     * 
+     * @param args Argumentos de línea de comandos (no se usan)
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -34,8 +49,12 @@ public class CrearJugadores extends JFrame {
         });
     }
 
+    /**
+     * Constructor de la ventana CrearJugadores.
+     * Inicializa los campos de texto y botones para ingresar datos de cada jugador.
+     * Al presionar "Aceptar", guarda el jugador y controla el flujo de creación según el total de jugadores.
+     */
     public CrearJugadores() {
-    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 220);
         contentPane = new JPanel();
@@ -43,6 +62,7 @@ public class CrearJugadores extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
+
         JLabel lblNombre = new JLabel("Nombre jugador");
         lblNombre.setBounds(20, 11, 120, 14);
         contentPane.add(lblNombre);
@@ -66,6 +86,10 @@ public class CrearJugadores extends JFrame {
         contentPane.add(btnAceptar);
 
         btnAceptar.addActionListener(new ActionListener() {
+            /**
+             * Añade un jugador a la base de datos.
+             * Controla el número total de jugadores y avanza al siguiente jugador o cierra la ventana.
+             */
             public void actionPerformed(ActionEvent e) {
                 String nombreJugador = textFieldNombre.getText();
                 String posicion = textFieldPosicion.getText();
@@ -76,7 +100,6 @@ public class CrearJugadores extends JFrame {
                 }
 
                 BaseDeDatos.aniadirJugador(nombreJugador, posicion, nombreEquipo);
-
                 contador++;
 
                 if (contador < totalJugadores) {
@@ -93,6 +116,10 @@ public class CrearJugadores extends JFrame {
         });
     }
 
+    /**
+     * Pregunta al usuario el número de jugadores que desea crear para el equipo actual.
+     * Valida la entrada y asigna un valor por defecto si es inválida.
+     */
     public void preguntarNumeroJugadores() {
         String input = JOptionPane.showInputDialog("¿Cuántos jugadores quieres crear para el equipo " + nombreEquipo + "?");
         try {
@@ -107,6 +134,12 @@ public class CrearJugadores extends JFrame {
         }
     }
 
+    /**
+     * Establece el nombre del equipo actual.
+     * También solicita al usuario el número de jugadores a crear.
+     * 
+     * @param nombreEquipo Nombre del equipo al que se añadirán los jugadores.
+     */
     public void setNombreEquipo(String nombreEquipo) {
         this.nombreEquipo = nombreEquipo;
         preguntarNumeroJugadores();

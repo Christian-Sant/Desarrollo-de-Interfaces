@@ -150,10 +150,30 @@
 		<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\Project\javadoc.xml"/>
 		<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\Project\doc"/>
 		<section name="projects">
-			<section name="Project">
+			<section name="GestionBiblioteca">
 				<item key="href" value=""/>
+				<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\GestionBiblioteca\doc"/>
+				<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\GestionBiblioteca\javadoc.xml"/>
+			</section>
+			<section name="PCP-TCP">
+				<item key="href" value=""/>
+				<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\PCP-TCP\doc"/>
+				<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\PCP-TCP\javadoc.xml"/>
+			</section>
+			<section name="Hotel">
+				<item key="href" value=""/>
+				<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\Hotel\doc"/>
+				<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\Hotel\javadoc.xml"/>
+			</section>
+			<section name="Project">
+				<item key="href" value="https://docs.oracle.com/en/java/javase/17/docs/api/"/>
 				<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\Project\doc"/>
 				<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\Project\javadoc.xml"/>
+			</section>
+			<section name="Project1">
+				<item key="href" value=""/>
+				<item key="destdir" value="C:\Users\Tarde\eclipse-workspace\Project1\doc"/>
+				<item key="antpath" value="C:\Users\Tarde\eclipse-workspace\Project1\javadoc.xml"/>
 			</section>
 		</section>
 	</section>

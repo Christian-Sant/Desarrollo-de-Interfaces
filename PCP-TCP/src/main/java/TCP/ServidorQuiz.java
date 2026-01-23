@@ -1,23 +1,29 @@
 package TCP;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ServidorQuiz {
 
     private static final int PUERTO = 9876;
-
+    private static final String ARCHIVO_RANKING = "Ranking.json";
+    private static final String ARCHIVO_PREGUNTAS = "preguntas.txt";
+    //Usaremos la siguiente estructura, ya que usa clave(preguntas) valor(respuestas), para asi poder saber de inmediato si el jugador ha acertado.
     private static Map<String, String> preguntas = new HashMap<>();
 
     public static void main(String[] args) {
 
-        cargarDiccionario("preguntas.txt");
+        cargarPreguntas();
         //Instanciamos DatagramSocket ya que es la base de la conexion entre servidor y cliente en UDP, u usamos while true para que el servidor siempre este activo
         try (DatagramSocket socket = new DatagramSocket(PUERTO)) {
 
@@ -56,9 +62,8 @@ public class ServidorQuiz {
 
 
     
-    private static void cargarDiccionario(String rutaArchivo) {
-
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+    private static void cargarPreguntas() {
+        try (BufferedReader br = new BufferedReader(new FileReader(ARCHIVO_PREGUNTAS))) {
 
             String linea;
 
@@ -71,7 +76,7 @@ public class ServidorQuiz {
                 if (partes.length == 2) {
                     String clave = partes[0].trim().toLowerCase();
                     String valor = partes[1].trim().toLowerCase();
-                    preguntas.put(clave, valor);
+                    preguntas.put(clave, valor);//Esta es la linea exacta en la cual, el archivo txt leido es añadido al HashMap para su posterior uso.
                 }
             }
 
@@ -82,4 +87,14 @@ public class ServidorQuiz {
             e.printStackTrace();
         }
     }
+    private static void guardarRankingJson(List<Jugador> ranking) {
+	    ObjectMapper mapper = new ObjectMapper();
+	    try {
+	        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(ARCHIVO_RANKING), ranking);
+	        System.out.println("Ranking guardado correctamente en JSON.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 }

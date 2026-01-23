@@ -6,8 +6,10 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value=" void compraInferiorA100_NoTieneDescuento() {"/>
 		<list key="findhistory">
+			<item value=" void compraInferiorA100_NoTieneDescuento() {"/>
+			<item value="package PracticaDI;"/>
 			<item value="inet"/>
 			<item value="Datos"/>
 			<item value="Datos guardados correctamente "/>
@@ -21,8 +23,6 @@
 			<item value="eliminado"/>
 			<item value="split"/>
 			<item value="actualizarNotaEstudiante"/>
-			<item value="guardarLibros"/>
-			<item value="sc."/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

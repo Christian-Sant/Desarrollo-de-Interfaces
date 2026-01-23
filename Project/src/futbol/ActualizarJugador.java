@@ -10,6 +10,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Ventana para actualizar los datos de un jugador de fútbol.
+ * Permite modificar el nombre y la posición de un jugador existente en un equipo.
+ * 
+ * @author Christian
+ * @version 1.0
+ * @since 2026-01-19
+ * @see BaseDeDatos#actualizarJugador(String, String, String, String)
+ */
 public class ActualizarJugador extends JFrame {
 
     private JPanel contentPane;
@@ -18,6 +27,13 @@ public class ActualizarJugador extends JFrame {
     private String nombreOriginal;
     private String nombreEquipo;
 
+    /**
+     * Constructor de la ventana ActualizarJugador.
+     * Carga los datos actuales del jugador y permite modificarlos.
+     * 
+     * @param nombreJugador Nombre del jugador que se desea actualizar.
+     * @param equipo Nombre del equipo al que pertenece el jugador.
+     */
     public ActualizarJugador(String nombreJugador, String equipo) {
         this.nombreOriginal = nombreJugador;
         this.nombreEquipo = equipo;
@@ -29,6 +45,7 @@ public class ActualizarJugador extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
+
         JLabel lblNombre = new JLabel("Nombre");
         lblNombre.setBounds(20, 11, 80, 14);
         contentPane.add(lblNombre);
@@ -51,17 +68,21 @@ public class ActualizarJugador extends JFrame {
         contentPane.add(btnActualizar);
 
         btnActualizar.addActionListener(new ActionListener() {
+            /**
+             * Evento que se ejecuta al presionar el botón Actualizar.
+             * Actualiza los datos del jugador en la base de datos si todos los
+             * campos están completos, limpia los campos y cierra la ventana.
+             */
             public void actionPerformed(ActionEvent e) {
                 String nuevoNombre = textNombre.getText();
                 String nuevaPosicion = textPosicion.getText();
 
                 if(nuevoNombre.isEmpty() || nuevaPosicion.isEmpty()) return;
-                
+
                 BaseDeDatos.actualizarJugador(nombreOriginal, nombreEquipo, nuevoNombre, nuevaPosicion);
                 textNombre.setText("");
                 textPosicion.setText("");
                 dispose();
-                
             }
         });
     }
