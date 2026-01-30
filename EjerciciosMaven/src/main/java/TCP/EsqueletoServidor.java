@@ -23,8 +23,21 @@ public class EsqueletoServidor {
 	}
 	
 	public static void atenderCliente(Socket socket) {
-		try (BufferedReader entrada = new BufferedReader( new InputStreamReader(socket.getInputStream()))){
-			
+		try (BufferedReader entrada = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+			PrintWriter salida = new PrintWriter(socket.getOutputStream(),true)){
+			salida.println("Bienvenido a nuestro servicio: Escribe SALIR para finalizar");
+			boolean clienteConectado = true;
+			String lineaRecibida;
+			while(clienteConectado && (lineaRecibida = entrada.readLine()) != null) {
+				System.out.println("Cliente dice: " + lineaRecibida);
+				if(!lineaRecibida.equalsIgnoreCase("SALIR")) {
+					salida.println("Tu mensaje es: " + lineaRecibida);
+				}
+				else {
+					salida.println("Adios");
+					clienteConectado = false;
+				}
+			}
 		}
 		catch(Exception e) {
 			
