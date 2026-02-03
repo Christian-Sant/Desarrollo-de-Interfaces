@@ -1,4 +1,4 @@
-package PHP;
+package com.MavenEjercicios.model;
 
 public class Vehiculo {
 	private int idVehiculo;
@@ -7,6 +7,13 @@ public class Vehiculo {
 	private String marca;
 	private String modelo;
 	private int anio;
+	private String nombre;
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	public Vehiculo(String matricula, String marca, String modelo, int anio) {
 		this.matricula = matricula;
 		this.marca = marca;

@@ -1,4 +1,4 @@
-package PHP;
+package com.MavenEjercicios.model;
 
 public class Propietario {
 	private int idPropietario;

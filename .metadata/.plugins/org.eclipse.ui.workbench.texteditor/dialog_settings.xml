@@ -6,8 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=" void compraInferiorA100_NoTieneDescuento() {"/>
+		<item key="selection" value="   butaca.setOcupado(true);"/>
 		<list key="findhistory">
+			<item value="   butaca.setOcupado(true);"/>
+			<item value="   butaca.setOcupado(true); "/>
+			<item value="ocupado"/>
+			<item value="buil"/>
 			<item value=" void compraInferiorA100_NoTieneDescuento() {"/>
 			<item value="package PracticaDI;"/>
 			<item value="inet"/>
@@ -19,10 +23,6 @@
 			<item value="aniadirJugadorConID"/>
 			<item value="CineApp"/>
 			<item value="constructor"/>
-			<item value="eliminado()"/>
-			<item value="eliminado"/>
-			<item value="split"/>
-			<item value="actualizarNotaEstudiante"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
