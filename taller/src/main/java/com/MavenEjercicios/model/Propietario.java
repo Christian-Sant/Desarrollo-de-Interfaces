@@ -3,12 +3,15 @@ package com.MavenEjercicios.model;
 public class Propietario {
 	private int idPropietario;
 	private String nombre;
-	private int telefono;
+	private String telefono;
 	private String direccion;
-	public Propietario(String nombre, int telefono, String direccion) {
+	public Propietario(String nombre, String telefono, String direccion) {
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
+	}
+	public Propietario() {
+		
 	}
 	public int getIdPropietario() {
 		return idPropietario;
@@ -22,10 +25,10 @@ public class Propietario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 	public String getDireccion() {

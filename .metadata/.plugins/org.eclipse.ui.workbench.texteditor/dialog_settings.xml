@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="   butaca.setOcupado(true);"/>
+		<item key="selection" value="listarPorId"/>
 		<list key="findhistory">
+			<item value="taller"/>
+			<item value="talle"/>
+			<item value="vehiculos"/>
 			<item value="   butaca.setOcupado(true);"/>
 			<item value="   butaca.setOcupado(true); "/>
 			<item value="ocupado"/>
@@ -20,9 +23,6 @@
 			<item value="Datos guardados correctamente en hotel.json"/>
 			<item value="JsonManager.guardar(data);"/>
 			<item value="Error obtener jugadores:"/>
-			<item value="aniadirJugadorConID"/>
-			<item value="CineApp"/>
-			<item value="constructor"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
